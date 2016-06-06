@@ -14,7 +14,7 @@ Advanced topics
 .. toctree::
   :maxdepth: 2
 
- 	templatetags
+  templatetags
   views
 
 Extra
