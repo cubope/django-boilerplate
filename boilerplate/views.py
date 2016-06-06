@@ -1,6 +1,7 @@
+# -*- encoding: utf-8 -*-
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 
