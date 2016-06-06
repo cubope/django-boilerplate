@@ -8,24 +8,24 @@ Views
 
 .. currentmodule:: boilerplate.views
 .. autoclass:: NoLoginRequiredMixin
-	:members:
+  :members:
 
 .. currentmodule:: boilerplate.views
 .. autoclass:: ListActionsMixin
-	:members:
+  :members:
 
 .. currentmodule:: boilerplate.views
 .. autoclass:: CreateMessageMixin
-	:members:
+  :members:
 
 .. currentmodule:: boilerplate.views
 .. autoclass:: UpdateMessageMixin
-	:members:
+  :members:
 
 .. currentmodule:: boilerplate.views
 .. autoclass:: DeleteMessageMixin
-	:members:
+  :members:
 
 .. currentmodule:: boilerplate.views
 .. autoclass:: ExtraFormsAndFormsetsMixin
-	:members:
+  :members:
