@@ -1,0 +1,37 @@
+{% load boilerplate i18n %}
+
+{% if not view.is_popup %}
+<ol class="breadcrumb hidden-print small">
+	<li><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+	{% if object %}
+		<li><a href="{% url object|model_app_url %}">{{ object|model_app_name }}</a></li>
+		{% if object.parent %}
+			<li><a href="{% url object.parent|model_url %}">{{ object.parent|model_name_plural }}</a></li>
+			<li><a href="{% model_action object.parent 'detail' %}">{{ object.parent }}</a></li>
+			<li>{{ object|model_name_plural }}</li>
+			<li><a href="{% model_action object 'detail' object.pk %}">{{ object }}</a></li>
+		{% else %}
+			<li><a href="{% url object|model_url %}">{{ object|model_name_plural }}</a></li>
+			<li><a href="{% model_action object 'detail' %}">{{ object }}</a></li>
+		{% endif %}
+		<li class="active">{% if not form and object %}{% trans 'Delete' %}{% else %}{% trans 'Update' %}{% endif %}</li>
+	{% else %}
+		{% if parent %}
+			<li><a href="{% url parent|form_app_url %}">{{ parent|form_app_name }}</a></li>
+			<li><a href="{% url parent|form_model_url %}">{{ parent|form_name_plural }}</a></li>
+			<li><a href="{% model_action parent 'detail' %}">{{ parent }}</a></li>
+			<li><a href="">{{ form|form_name_plural }}</a></li>
+		{% else %}
+			<li><a href="{% url form|form_app_url %}">{{ form|form_app_name }}</a></li>
+			<li><a href="{% url form|form_model_url %}">{{ form|form_name_plural }}</a></li>
+		{% endif %}
+		<li class="active">{% trans 'Create' %}</li>
+	{% endif %}
+</ol>
+{% endif %}
+
+<div class="page-header">
+	<div class="row">
+		<h2 class="col-md-9 col-md-offset-3">{% if object and not form %}{% trans 'Delete' %} {{ object }}{% elif object %}{% trans 'Update' %} {{ object }}{% else %}{% trans 'Create' %} {{ form|form_name }}{% endif %}</h2>
+	</div>
+</div>

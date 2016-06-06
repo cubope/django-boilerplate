@@ -1,0 +1,19 @@
+{% load boilerplate i18n %}
+
+<ol class="breadcrumb hidden-print small">
+	<li><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+	{% if object.parent %}
+	<li><a href="{% url object.parent|model_app_url %}">{{ object.parent|model_app_name }}</a></li>
+	<li><a href="{% url object.parent|model_url %}">{{ object.parent|model_name_plural }}</a></li>
+	<li><a href="{% model_accion object.parent 'ver' object.parent.pk %}">{{ object.parent }}</a></li>
+	<li>{{ object|model_name_plural }}</li>
+	{% else %}
+	<li><a href="{% url object|model_app_url %}">{{ object|model_app_name }}</a></li>
+	<li><a href="{% url object|model_url %}">{{ object|model_name_plural }}</a></li>
+	{% endif %}
+	<li class="active">{{ object }}</li>
+</ol>
+
+<div class="page-header">
+	<h2>{{ object }} {% for t,a,c,i in object.actions %}<a class="hidden-print btn btn-sm btn-{{ c }}" href="{% model_action object a %}"><span class="glyphicon glyphicon-{{ i }}" aria-hidden="true"></span> {{ t }}</a> {% endfor %}</h2>
+</div>

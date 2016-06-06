@@ -1,0 +1,11 @@
+{% load boilerplate i18n %}
+
+<ol class="breadcrumb hidden-print small">
+	<li><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+	<li><a href="{% url object_list|queryset_app_url %}">{{ object_list|queryset_app_name }}</a></li>
+	<li class="active">{{ object_list|queryset_model_name_plural }}</li>
+</ol>
+
+<div class="page-header">
+	<h2>{{ object_list|queryset_model_name_plural }} {% for t, a,c,i in actions %}<a class="btn btn-{{ c }} btn-sm" href="{% queryset_accion object_list a %}"><span class="glyphicon glyphicon-{{ i }}" aria-hidden="true"></span> {{ t }}</a> {% endfor %}</h2>
+</div>

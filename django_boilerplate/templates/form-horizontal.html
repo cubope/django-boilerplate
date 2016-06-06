@@ -1,0 +1,81 @@
+{% load common_tags bootstrap3 i18n %}
+
+<form id="form-{{ form|form_prefix }}" action="{% if action %}{{ action }}{% endif %}"{% if multipart %} enctype="multipart/form-data"{% endif %} class="form-horizontal" method="post">
+	{% csrf_token %}
+
+	{% if extra_forms and in_tabs %}
+	<ul class="nav nav-tabs" role="tablist">
+		{% if form %}
+		<li role="presentation" class="active"><a href="#{{ form|form_prefix }}" aria-controls="{{ form|form_prefix }}" role="tab" data-toggle="tab">{{ form|form_name }}{% if form.errors %} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>{% endif %}</a></a></li>
+		{% endif %}
+		{% for extra_form in extra_forms %}
+		<li role="presentation"><a href="#{{ extra_form|form_prefix }}" aria-controls="{{ extra_form|form_prefix }}" role="tab" data-toggle="tab">{{ extra_form|form_name }}{% if extra_form.errors %} <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>{% endif %}</a></li>
+		{% endfor %}
+	</ul>
+	<p></p>
+	<div class="tab-content">
+		{% if form %}
+		<div role="tabpanel" class="tab-pane fade in active" id="{{ form|form_prefix }}">
+			{% bootstrap_form form layout="horizontal" %}
+		</div>
+		{% endif %}
+		{% for extra_form in extra_forms %}
+		<div role="tabpanel" class="tab-pane fade" id="{{ extra_form|form_prefix }}">
+			{% bootstrap_form extra_form layout="horizontal" %}
+		</div>
+    {% endfor %}
+  </div>
+  {% else %}
+  	{% if form %}
+			{% bootstrap_form form layout="horizontal" %}
+		{% endif %}
+		{% for extra_form in extra_forms %}
+			{% bootstrap_form extra_form layout="horizontal" %}
+		{% endfor %}
+	{% endif %}
+
+	{% if formsets %}
+		{% for formset in formsets %}
+			{% bootstrap_formset_errors formset %}
+			{% include 'blocks/formset.html' %}
+		{% endfor %}
+	{% endif  %}
+
+	{% if form or extra_forms or formsets %}
+		{% trans 'Clean' as clean_text %}
+		
+		{% if object %}
+			{% trans 'Update' as update_text %}
+			{% buttons submit=update_text reset=clean_text layout='horizontal' %}{% endbuttons %}
+		{% else %}
+			{% if submit_text %}
+				{% buttons submit=submit_text reset=clean_text layout='horizontal' %}{% endbuttons %}
+			{% else %}
+				{% trans 'Save' as save_text %}
+				{% buttons submit=save_text reset=clean_text layout='horizontal' %}{% endbuttons %}
+			{% endif %}
+		{% endif %}
+	{% else %}
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 text-center">
+				{% blocktrans with model=object|model_name %}
+				<p>Are you sure you want to delete the {{ model }}: {{ object }}?</p>
+				<p>This action <b>can't be undo</b>. Be careful.</p>
+				<p>Press "<b>Delete</b>" to confirm or "<b>Cancel</b>" to get back.</p>
+				{% endblocktrans %}
+
+				{% trans 'Objects:' %}
+				<ul>{{ object|get_related_objects|unordered_list }}</ul>
+
+				<div class="row">
+					<div class="col-xs-6 text-center">				
+						<button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {% trans 'Delete' %}</button>
+					</div>
+					<div class="col-xs-6 text-center">
+						<a class="btn btn-default" href="javascript:history.back(-1)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {% trans 'Cancel' %}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+</form>
