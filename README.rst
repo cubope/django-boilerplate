@@ -33,3 +33,30 @@ Installation
    ``'boilerplate',``
 
 This app require Django 1.8+, python 2.7+. Thanks for understanding.
+
+
+Bugs and suggestions
+--------------------
+
+If you have found a bug or if you have a request for additional functionality, please use the issue tracker on GitHub.
+
+https://github.com/cubope/django-boilerplate/issues
+
+
+License
+-------
+
+You can use this under Apache 2.0. See `LICENSE
+<LICENSE>`_ file for details.
+
+
+Author
+------
+
+Developed and maintained by `Cubo <http://cubo.pe/>`_.
+
+Original author & Development lead: `Irving Kcam <https://github.com/ikcam>`_.
+
+Thanks to everybody that has contributed pull requests, ideas, issues, comments and kind words.
+
+Please see AUTHORS.rst for a list of contributors.
