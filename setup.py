@@ -12,7 +12,7 @@ except ImportError:
     from distutils.core import setup
 
 version = boilerplate.__version__
-"""
+
 if sys.argv[-1] == 'publish':
     os.system('cd docs && make html')
     os.system('python setup.py sdist upload')
@@ -20,7 +20,6 @@ if sys.argv[-1] == 'publish':
     print("  git tag -a %s -m 'version %s'" % (version, version))
     print("  git push --tags")
     sys.exit()
-"""
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()

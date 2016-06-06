@@ -1,11 +1,6 @@
 Views
 ============
 
-..note::
- Django-Boilerplate help you working with extra forms and formsets on a CreateView
- and UpdateView, by using this mixins you will be able to easily work with extra forms
- and formsets on your views.
-
 .. currentmodule:: boilerplate.views
 .. autoclass:: NoLoginRequiredMixin
   :members:
