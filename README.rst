@@ -11,14 +11,6 @@ Write Django as usual, and let ``django-boilerplate`` help you with the usually 
 .. image:: https://img.shields.io/coveralls/cubope/django-boilerplate/master.svg
   :target: https://coveralls.io/r/cubope/django-boilerplate?branch=master
 
-.. image:: https://img.shields.io/pypi/v/django-boilerplate.svg
-    :target: https://pypi.python.org/pypi/django-boilerplate
-    :alt: Latest PyPI version
-
-.. image:: https://img.shields.io/pypi/dm/django-boilerplate.svg
-    :target: https://pypi.python.org/pypi/django-boilerplate
-    :alt: Number of PyPI downloads per month
-
 
 Requirements
 ------------
@@ -34,9 +26,7 @@ Installation
 
 1. Install using pip:
 
-   ``pip install django-boilerplate``
-
-   Alternatively, you can install download or clone this repo and call ``pip install -e .``.
+   ``pip install -e .``
 
 2. Add to INSTALLED_APPS in your ``settings.py``:
 
