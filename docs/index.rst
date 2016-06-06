@@ -1,15 +1,27 @@
-=================================================================
-Welcome to django-boilerplate's documentation!
-=================================================================
+django-boilerplate's documentation
+====================================
 
-Contents:
-
+Getting started
+---------------
 .. toctree::
-   :maxdepth: 2
+  :maxdepth: 2
 
-   installation
-   quickstart
-   views
-   contributing
-   authors
-   history
+  installation
+  quickstart
+
+Advanced topics
+---------------
+.. toctree::
+  :maxdepth: 2
+
+ 	templatetags
+  views
+
+Extra
+---------------
+.. toctree::
+  :maxdepth: 2
+  
+  contributing
+  authors
+  history
