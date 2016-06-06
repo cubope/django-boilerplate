@@ -6,8 +6,7 @@ from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 
 class NoLoginRequiredMixin(object):
-	"""
-	Mixin for any class view classes that required the current user
+	"""Mixin for any class view classes that required the current user
 	if not authenticated, redirects the user to the home page or any
 	URL with the *next* parameter.
 
@@ -25,8 +24,7 @@ class NoLoginRequiredMixin(object):
 		return super(NoLoginRequiredMixin, self).get(request, **kwargs)
 
 class ListActionsMixin(object):
-	"""
-	Mixin for :class:`~django.views.generic.list.ListView` classes that
+	"""Mixin for :class:`~django.views.generic.list.ListView` classes that
 	adds to the "context" a variable with a list of actions.
 
 	**Example**::
@@ -38,8 +36,7 @@ class ListActionsMixin(object):
 			model = Model
 	"""
 	def get_action_list(self):
-		"""
-		Return the list of actions to show in the "context".
+		"""Return the list of actions to show in the "context".
 
 		Override this function to personalize the list of actions.
 
@@ -72,8 +69,7 @@ class CRUDMessageMixin(six.with_metaclass(SuccessMessageMixin)):
 	success_message = _('%(model)s: "%(name)s" has been %(action)s successfully.')
 	
 	def get_success_message(self, cleaned_data):
-		"""
-		Default success message mixin
+		"""Default success message mixin
 		"""
 		return self.success_message % dict(
 			model  = self.object.__class__._meta.verbose_name.title(),
@@ -82,8 +78,7 @@ class CRUDMessageMixin(six.with_metaclass(SuccessMessageMixin)):
 		)
 
 class CreateMessageMixin(six.with_metaclass(CRUDMessageMixin)):
-	"""
-	Mixin for :class:`~django.views.generic.edit.CreateView` classes that
+	"""Mixin for :class:`~django.views.generic.edit.CreateView` classes that
 	adds a success message after the action is completed successfully.
 
 	**Example**::
@@ -93,8 +88,7 @@ class CreateMessageMixin(six.with_metaclass(CRUDMessageMixin)):
 	message_action = 'created'
 
 class UpdateMessageMixin(six.with_metaclass(CRUDMessageMixin)):
-	"""
-	Mixin for :class:`~django.views.generic.edit.UpdateView` classes that
+	"""Mixin for :class:`~django.views.generic.edit.UpdateView` classes that
 	adds a success message after the action is completed successfully.
 
 	**Example**::
@@ -104,8 +98,7 @@ class UpdateMessageMixin(six.with_metaclass(CRUDMessageMixin)):
 	message_action = 'updated'
 
 class DeleteMessageMixin(six.with_metaclass(CRUDMessageMixin)):
-	"""
-	Mixin for :class:`~django.views.generic.edit.DeleteView` classes that
+	"""Mixin for :class:`~django.views.generic.edit.DeleteView` classes that
 	adds a success message after the action is completed successfully.
 
 	**Example**::
@@ -120,8 +113,7 @@ Form with Extra Forms
 
 """
 class ExtraFormsAndFormsetsMixin(object):
-	"""
-	Mixin for :class:`~django.views.generic.edit.CreateView` or
+	"""Mixin for :class:`~django.views.generic.edit.CreateView` or
 	:class:`~django.views.generic.edit.UpdateView` classes that
 	adds a success message after the action is completed successfully.
 
@@ -137,20 +129,17 @@ class ExtraFormsAndFormsetsMixin(object):
 			)
 	"""
 	def get_extra_forms_list(self):
-		"""
-		Returns a list of extra forms with the lookup_field, relation_field and form_class to use in this view.
+		"""Returns a list of extra forms with the lookup_field, relation_field and form_class to use in this view.
 		"""
 		return self.extra_forms_list
 
 	def get_formset_list(self):
-		"""
-		Returns a list of formsets with the formset class to use in this view.
+		"""Returns a list of formsets with the formset class to use in this view.
 		"""
 		return self.formset_list
 
 	def get_extra_forms(self, forms_list=None):
-		"""
-		Returns a list of each extra forms to be used in this view.
+		"""Returns a list of each extra forms to be used in this view.
 		"""
 		output = list()
 		
@@ -165,8 +154,7 @@ class ExtraFormsAndFormsetsMixin(object):
 		return output
 
 	def get_formsets(self, formset_list=None):
-		"""
-		Returns a list of formsets to be used in this view.
+		"""Returns a list of formsets to be used in this view.
 		"""
 		output = list()
 		
@@ -179,8 +167,7 @@ class ExtraFormsAndFormsetsMixin(object):
 		return output
 
 	def get_extra_form_kwargs(self, lookup_field):
-		"""
-		Returns the keyword arguments for instantiating each extra form.
+		"""Returns the keyword arguments for instantiating each extra form.
 		"""
 		kwargs = {
 			'prefix': lookup_field,
@@ -202,8 +189,7 @@ class ExtraFormsAndFormsetsMixin(object):
 
 
 	def get_formset_kwargs(self):
-		"""
-		Returns the keyword arguments for instantiating each formset.
+		"""Returns the keyword arguments for instantiating each formset.
 		"""
 		if self.request.method in ('POST', 'PUT'):
 			kwargs.update({
@@ -217,8 +203,7 @@ class ExtraFormsAndFormsetsMixin(object):
 		return kwargs
 
 	def post(self, request, *args, **kwargs):
-		"""
-		Handles POST requests, instantiating a form instance with the passed
+		"""Handles POST requests, instantiating a form instance with the passed
 		POST variables and then checked for validity.
 		"""
 		form        = self.get_form()
@@ -239,8 +224,7 @@ class ExtraFormsAndFormsetsMixin(object):
 		return self.form_valid(form, extra_forms, formsets)
 
 	def form_valid(self, form, extra_forms, formsets):
-		"""
-		If the form is valid, redirect to the supplied URL.
+		"""If the form is valid, redirect to the supplied URL.
 		"""
 		self.object = form.save()
 
@@ -255,15 +239,13 @@ class ExtraFormsAndFormsetsMixin(object):
 		return HttpResponseRedirect(self.get_success_url())
 
 	def form_invalid(self, form, extra_forms, formsets):
-		"""
-		If the form or the extra forms are invalid, re-render the context data with the
+		"""If the form or the extra forms are invalid, re-render the context data with the
 		data-filled form and errors.
 		"""
 		return self.render_to_response(self.get_context_data(form=form, extra_forms=extra_forms, formsets=formsets))
 
 	def get_context_data(self, **kwargs):
-		"""
-		Insert the extra forms into the context dict.
+		"""Insert the extra forms and formsets into the context dict.
 		"""
 		extra_forms = self.get_extra_forms()
 		formsets    = self.get_formsets()
