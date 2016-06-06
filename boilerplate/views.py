@@ -6,6 +6,15 @@ from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 
 class NoLoginRequiredMixin(object):
+	"""
+	Mixin for any class view classes that required the current user
+	if not authenticated, redirects the user to the home page or any
+	URL with the *next* parameter.
+
+	**Example**::
+		class Register(NoLoginRequiredMixin, FormView):
+			form_class = forms.RegisterForm
+	"""
 	def get(self, request, **kwargs):
 		if request.user.is_authenticated():
 			if request.GET.get('next', None):
@@ -16,7 +25,26 @@ class NoLoginRequiredMixin(object):
 		return super(NoLoginRequiredMixin, self).get(request, **kwargs)
 
 class ListActionsMixin(object):
+	"""
+	Mixin for :class:`~django.views.generic.list.ListView` classes that
+	adds to the "context" a variable with a list of actions.
+
+	**Example**::
+		class ModelList(ListActionsMixin, ListView):
+			actions = (
+				_('Add'), 'create', 'primary', 'plus'),
+				_('Export'), 'export', 'success', 'export'),
+			)
+			model = Model
+	"""
 	def get_action_list(self):
+		"""
+		Return the list of actions to show in the "context".
+
+		Override this function to personalize the list of actions.
+
+		For example: based on the user permissions.
+		"""
 		return self.action_list
 
 	def get_context_data(self, **kwargs):
@@ -54,12 +82,36 @@ class CRUDMessageMixin(six.with_metaclass(SuccessMessageMixin)):
 		)
 
 class CreateMessageMixin(six.with_metaclass(CRUDMessageMixin)):
+	"""
+	Mixin for :class:`~django.views.generic.edit.CreateView` classes that
+	adds a success message after the action is completed successfully.
+
+	**Example**::
+		class ModelSendEmail(CreateMessageMixin, CreateView):
+			model = Model
+	"""
 	message_action = 'created'
 
 class UpdateMessageMixin(six.with_metaclass(CRUDMessageMixin)):
+	"""
+	Mixin for :class:`~django.views.generic.edit.UpdateView` classes that
+	adds a success message after the action is completed successfully.
+
+	**Example**::
+		class ModelSendEmail(UpdateMessageMixin, UpdateView):
+			model = Model
+	"""
 	message_action = 'updated'
 
 class DeleteMessageMixin(six.with_metaclass(CRUDMessageMixin)):
+	"""
+	Mixin for :class:`~django.views.generic.edit.DeleteView` classes that
+	adds a success message after the action is completed successfully.
+
+	**Example**::
+		class ModelSendEmail(DeleteMessageMixin, DeleteView):
+			model = Model
+	"""
 	message_action = 'deleted'
 
 """
@@ -68,6 +120,22 @@ Form with Extra Forms
 
 """
 class ExtraFormsAndFormsetsMixin(object):
+	"""
+	Mixin for :class:`~django.views.generic.edit.CreateView` or
+	:class:`~django.views.generic.edit.UpdateView` classes that
+	adds a success message after the action is completed successfully.
+
+	**Example**::
+		class UserUpdate(ExtraFormsAndFormsetsMixin, UpdateView):
+			model = User
+			extra_form_list = (
+				('profile', 'user', forms.ProfileForm),
+			)
+			formset_list = (
+				(form.AddressFormSet),
+				(form.PhoneFormSet),
+			)
+	"""
 	def get_extra_forms_list(self):
 		"""
 		Returns a list of extra forms with the lookup_field, relation_field and form_class to use in this view.
