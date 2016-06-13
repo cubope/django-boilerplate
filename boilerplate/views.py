@@ -11,7 +11,8 @@ class NoLoginRequiredMixin(object):
 	if not authenticated, redirects the user to the home page or any
 	URL with the *next* parameter.
 
-	**Example**::
+	**Example**
+	::
 		class Register(NoLoginRequiredMixin, FormView):
 			form_class = forms.RegisterForm
 	"""
@@ -29,7 +30,8 @@ class ListActionsMixin(object):
 	Mixin for :class:`~django.views.generic.list.ListView` classes that
 	adds to the "context" a variable with a list of actions.
 
-	**Example**::
+	**Example**
+	::
 		class ModelList(ListActionsMixin, ListView):
 			actions = (
 				_('Add'), 'create', 'primary', 'plus'),
@@ -76,7 +78,8 @@ class CreateMessageMixin(CRUDMessageMixin):
 	Mixin for :class:`~django.views.generic.edit.CreateView` classes that
 	adds a success message after the action is completed successfully.
 
-	**Example**::
+	**Example**
+	::
 		class ModelSendEmail(CreateMessageMixin, CreateView):
 			model = Model
 	"""
@@ -87,7 +90,8 @@ class UpdateMessageMixin(CRUDMessageMixin):
 	Mixin for :class:`~django.views.generic.edit.UpdateView` classes that
 	adds a success message after the action is completed successfully.
 
-	**Example**::
+	**Example**
+	::
 		class ModelSendEmail(UpdateMessageMixin, UpdateView):
 			model = Model
 	"""
@@ -98,7 +102,8 @@ class DeleteMessageMixin(CRUDMessageMixin):
 	Mixin for :class:`~django.views.generic.edit.DeleteView` classes that
 	adds a success message after the action is completed successfully.
 
-	**Example**::
+	**Example**
+	::
 		class ModelSendEmail(DeleteMessageMixin, DeleteView):
 			model = Model
 	"""
@@ -110,7 +115,8 @@ class ExtraFormsAndFormsetsMixin(object):
 	:class:`~django.views.generic.edit.UpdateView` classes that
 	adds a success message after the action is completed successfully.
 
-	**Example**::
+	**Example**
+	::
 		class UserUpdate(ExtraFormsAndFormsetsMixin, UpdateView):
 			model = User
 			extra_form_list = (
