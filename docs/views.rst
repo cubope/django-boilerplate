@@ -1,4 +1,38 @@
 Views
 ============
-.. automodule:: boilerplate.views
-  :members:
+.. currentmodule:: boilerplate.views
+
+NoLoginRequiredMixin
+~~~~~~~~~~~~~~~~~~~~~~
+.. autoclass:: NoLoginRequiredMixin
+	:members:
+
+CRUDMessageMixin
+~~~~~~~~~~~~~~~~~~~~~~
+.. autoclass:: CRUDMessageMixin
+	:members:
+
+CreateMessageMixin
+~~~~~~~~~~~~~~~~~~~~~~
+.. autoclass:: CreateMessageMixin
+	:members:
+
+UpdateMessageMixin
+~~~~~~~~~~~~~~~~~~~~~~
+.. autoclass:: UpdateMessageMixin
+	:members:
+
+DeleteMessageMixin
+~~~~~~~~~~~~~~~~~~~~~~
+.. autoclass:: DeleteMessageMixin
+	:members:
+
+ListActionsMixin
+~~~~~~~~~~~~~~~~~~~~~~
+.. autoclass:: ListActionsMixin
+	:members:
+
+ExtraFormsAndFormsetsMixin
+~~~~~~~~~~~~~~~~~~~~~~
+.. autoclass:: ExtraFormsAndFormsetsMixin
+	:members:
