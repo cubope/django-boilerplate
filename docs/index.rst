@@ -15,6 +15,7 @@ Advanced topics
   :maxdepth: 2
 
   templatetags
+  mail
   views
 
 Extra
