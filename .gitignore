@@ -63,3 +63,4 @@ target/
 *.pot
 *.pyc
 local_settings.py
+media/*

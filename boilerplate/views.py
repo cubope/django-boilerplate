@@ -53,6 +53,8 @@ class ListActionsMixin(object):
 		if not 'actions' in kwargs:
 			kwargs['actions'] = self.get_action_list()
 
+		return super(ListActionsMixin, self).get_context_data(**kwargs)
+
 class CreateModelMixin(object):
 	def form_valid(self, form):
 		setattr(form.instance, self.field_user, self.request.user)
@@ -181,7 +183,7 @@ class ExtraFormsAndFormsetsMixin(object):
 		if formset_list is None:
 			forms_list = self.get_formset_list()
 
-		if formset_list
+		if formset_list:
 			for formset in formset_list:
 				output.append(formset(**self.get_formset_kwargs()))
 
