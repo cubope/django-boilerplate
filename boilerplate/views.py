@@ -63,7 +63,7 @@ class CRUDMessageMixin(SuccessMessageMixin):
 	message_action  = None
 	success_message = _('%(model)s: "%(name)s" has been %(action)s successfully.')
 	
-	def get_success_message(self, cleaned_data):
+	def get_success_message(self):
 		"""
 		Default success message mixin
 		"""
@@ -72,6 +72,17 @@ class CRUDMessageMixin(SuccessMessageMixin):
 			name   = self.object,
 			action = self.message_action,
 		)
+
+	def get_success_url(self):
+		"""
+		If the `get_sucess_url` if overwrite the message wont appear
+		"""
+		success_message = self.get_success_message()
+		
+		if success_message:
+			messages.success(self.request, success_message)
+		
+		return super(CRUDMessageMixin, self).get_success_url()
 
 class CreateMessageMixin(CRUDMessageMixin):
 	"""
@@ -170,8 +181,9 @@ class ExtraFormsAndFormsetsMixin(object):
 		if formset_list is None:
 			forms_list = self.get_formset_list()
 
-		for formset in formset_list:
-			output.append(formset(**self.get_formset_kwargs()))
+		if formset_list
+			for formset in formset_list:
+				output.append(formset(**self.get_formset_kwargs()))
 
 		return output
 

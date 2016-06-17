@@ -5,7 +5,14 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.utils import translation
 
-def send_text_mail(user, template_prefix, subject, object=None, from_name=None, files=None):
+def send_raw_mail(user, template_prefix, subject, object=None, from_name=None, files=None):
+	"""
+	Sending emails is easy now.
+
+	**Example**
+	::
+		send_raw_mail(<User:user>, 'recover_password', 'Recover Password', {'url': XXX})
+	"""
 	if isinstance(user, User):
 		translation.activate(user.profile.language)
 		to_email = user.email
@@ -32,6 +39,13 @@ def send_text_mail(user, template_prefix, subject, object=None, from_name=None, 
 	return msg.send()
 
 def send_html_mail(user, template_prefix, subject, object=None, from_name=None, files=None):
+	"""
+	Sending html emails is easy now.
+
+	**Example**
+	::
+		send_html_mail(<User:user>, 'recover_password', 'Recover Password', {'url': XXX})
+	"""
 	if isinstance(user, User):
 		translation.activate(user.profile.language)
 		to_email = user.email

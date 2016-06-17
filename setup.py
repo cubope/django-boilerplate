@@ -7,7 +7,7 @@ import sys
 import boilerplate
 
 try:
-    from setuptools import setup
+    from setuptools import setup, find_packages
 except ImportError:
     from distutils.core import setup
 
@@ -43,9 +43,9 @@ setup(
     ],
     license="Apache License 2.0",
     zip_safe=False,
-    keywords='django-boilerplate',
+    keywords=['django', 'boilerplate'],
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 1 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 2',
