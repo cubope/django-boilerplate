@@ -2,7 +2,7 @@
 Boilerplate for Django
 ======================
 
-Write Django as usual, and let ``django-boilerplate`` help you with the usually painfull staff.
+Write Django as usual, and let ``django-boilerplate`` help you with the usually painfull stuff.
 
 
 .. image:: https://img.shields.io/travis/cubope/django-boilerplate/master.svg
@@ -23,16 +23,19 @@ Requirements
 
 Installation
 ------------
-
 1. Install using pip:
 
-   ``pip install -e .``
+   ``pip install django-boilerplate``
+
+   Alternatively, you can install download or clone this repo and call ``pip install -e .``.
 
 2. Add to INSTALLED_APPS in your ``settings.py``:
 
    ``'boilerplate',``
 
-This app require Django 1.8+, python 2.7+. Thanks for understanding.
+3. In your templates, load the ``boilerplate`` library and use the ``boilerplate`` tags:
+
+This app will soon require Django 1.8+, python 2.7+. Thanks for understanding.
 
 
 Bugs and suggestions
