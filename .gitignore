@@ -62,5 +62,6 @@ target/
 *.log
 *.pot
 *.pyc
+*.sqlite3
 local_settings.py
 media/*
