@@ -45,7 +45,7 @@ setup(
     zip_safe=False,
     keywords=['django', 'boilerplate'],
     classifiers=[
-        'Development Status :: 1 - Beta',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 2',
@@ -58,6 +58,5 @@ setup(
         'Topic :: Software Development :: Libraries',
         'Topic :: Utilities',
         'Environment :: Web Environment',
-        'Framework :: Django',
     ],
 )
