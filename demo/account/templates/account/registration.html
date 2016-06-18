@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans 'Registration' %}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>{% trans 'Registration' %}</h1>
+</div>
+
+{% include 'form.html' %}
+
+<a href="{% url 'account:login' %}">Login</a> |
+<a href="{% url 'account:recover' %}">Recover</a>
+{% endblock %}
