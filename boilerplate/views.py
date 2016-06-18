@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from django.contrib.messages.views import SuccessMessageMixin
-from django.http import Http404
+from django.contrib import messages
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.utils import six
 from django.utils.translation import ugettext_lazy as _
@@ -61,7 +61,7 @@ class CreateModelMixin(object):
 
 		return super(CreateUserMixin, self).form_valid(form)
 
-class CRUDMessageMixin(SuccessMessageMixin):
+class CRUDMessageMixin(object):
 	message_action  = None
 	success_message = _('%(model)s: "%(name)s" has been %(action)s successfully.')
 	
@@ -181,7 +181,7 @@ class ExtraFormsAndFormsetsMixin(object):
 		output = list()
 		
 		if formset_list is None:
-			forms_list = self.get_formset_list()
+			formset_list = self.get_formset_list()
 
 		if formset_list:
 			for formset in formset_list:

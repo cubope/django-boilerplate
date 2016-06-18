@@ -1,0 +1,63 @@
+{% load bootstrap3 boilerplate %}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4 class="panel-title">
+			<a role="button" data-toggle="collapse" href="#formset-{{ formset.prefix }}" aria-expanded="true" aria-controls="formset-{{ formset.prefix }}">
+			{{ formset|formset_model_name_plural }}
+			</a>
+		</h4>
+	</div>
+	<div class="table-responsive collapse in" id="formset-{{ formset.prefix }}">
+		{{ formset.management_form }}
+		{{ formset.non_form_errors }}
+		
+		<table class="table table-striped table-condensed table-hover">
+			<tbody>
+				{% for form in formset %}
+					{% if forloop.first %}
+					<tr>
+						{% for field in form.visible_fields %}
+							{% if field.label != 'Eliminar' and field.label != 'Delete' %}
+							<th>
+							{% bootstrap_label field.label %}{% if field.help_text %}<abbr title="{{ field.help_text }}"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></abbr>{% endif %}
+							</th>
+							{% else %}
+								{% if formset.can_delete %}
+								<th class="text-center">
+									{% if form.instance.pk %}{% bootstrap_label field.label %}{% endif %}
+								</th>
+								{% endif %}
+							{% endif %}
+						{% endfor %}
+					</tr>
+					{% endif %}
+					<tr class="form-row {% if form.instance.pk %}has_original{% endif %}" id="{{ formset.prefix }}-{{ forloop.counter }}">
+						<td class="original hide">
+							{% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+						</td>
+						{% for field in form.visible_fields %}
+							{% if field.label != 'Eliminar' and field.label != 'Delete' %}
+							<td class="field-{{ field.label|slugify }} {% if field.errors %}bg-danger text-danger{% endif %}">
+								{% bootstrap_field field show_label=False size='sm' form_group_class='' %}
+							</td>
+							{% else %}
+								{% if formset.can_delete %}
+								<td class="text-center">{% if form.instance.pk %}{{ field }}{% endif %}</td>
+								{% endif %}
+							{% endif %}
+						{% endfor %}
+					{% if form.non_field_errors %}
+					</tr>
+					<tr>
+						<td class="text-danger bg-danger" colspan="6">
+							{% for err in form.non_field_errors %}
+								{{ err }}.
+							{% endfor %}
+						</td>
+					{% endif %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>

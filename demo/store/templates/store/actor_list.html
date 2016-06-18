@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% load boilerplate %}
+
+{% block title %}{{ object_list|queryset_model_name_plural }}{% endblock %}
+
+{% block content %}
+	<div class="page-header">
+		<h1>
+			{{ object_list|queryset_model_name_plural }}
+			{% for t,a,c,i in actions %}
+			<a href="{% queryset_action object_list a %}" class="btn btn-xs btn-{{ c }}"><span class="glyphicon glyphicon-{{ i }}" aria-hidden="true"></span> {{ t }}</a>
+			{% endfor %}
+		</h1>
+	</div>
+
+	{% for object in object_list %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{ object }}</h3>
+		</div>
+		<div class="panel-body">
+			{{ object.contact_information.phone }}
+		</div>
+		<div class="panel-footer text-right">
+			{% for t,a,c,i in object.get_actions %}
+			<a href="{% model_action object a %}" class="btn btn-xs btn-{{ c }}"><span class="glyphicon glyphicon-{{ i }}" aria-hidden="true"></span> {{ t }}</a>
+			{% endfor %}
+		</div>
+	</div>
+	{% empty %}
+	<a href="{% url 'store:actor_create' %}">Register the first actor.</a>
+	{% endfor %}
+{% endblock %}

@@ -40,7 +40,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    # Modules
+    # To make it look nice
+    'bootstrap3',
+    # Boilerplate
     'boilerplate',
     # Apps
     'store'
@@ -64,7 +66,9 @@ ROOT_URLCONF = 'demo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates/'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,8 +99,8 @@ WSGI_APPLICATION = 'demo.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
-    },
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 }
 
 # Internationalization

@@ -1,0 +1,62 @@
+{% load bootstrap3 boilerplate i18n %}
+
+<form action="" method="POST" class="form-horizontal" enctype="multipart/form-data" role="form">
+	{% csrf_token %}
+
+	{% if form %}
+		{% if extra_forms %}
+		<div class="form-group">
+			<legend class="col-sm-9 col-sm-offset-3">{{ form|form_model_name }}</legend>
+		</div>
+		{% endif %}
+
+		{% bootstrap_form form layout="horizontal" %}
+
+		{% for extra_form in extra_forms %}
+		<div class="form-group">
+			<legend class="col-sm-9 col-sm-offset-3">{{ extra_form|form_model_name }}</legend>
+		</div>
+
+		{% bootstrap_form extra_form layout="horizontal" %}
+		{% endfor %}
+
+		{% for formset in formsets %}
+			{% bootstrap_formset_errors formset %}
+			{% include 'formset.html' %}
+		{% endfor %}
+
+		{% if object %}
+			{% trans 'Update' as update_text %}
+			{% buttons submit=update_text reset=clean_text layout='horizontal' %}{% endbuttons %}
+		{% else %}
+			{% if submit_text %}
+				{% buttons submit=submit_text reset=clean_text layout='horizontal' %}{% endbuttons %}
+			{% else %}
+				{% trans 'Submit' as save_text %}
+				{% buttons submit=save_text reset=clean_text layout='horizontal' %}{% endbuttons %}
+			{% endif %}
+		{% endif %}
+	{% else %}
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+				{% blocktrans with model_name=object|model_name %}
+				<p>¿Estás seguro que deseas eliminar el {{ model_name }}: "{{ object }}"?</p>
+				<p>Luego de confirmar <b>no podrás deshacer ésta accion</b>. Sé cuidadoso.</p>
+				<p>Haz clic en "<b>Elminar</b>" para confirmar ó en "<b>Cancelar</b>" para regresar.</p>
+				{% endblocktrans %}
+
+				{% trans 'También se eliminarán los siguientes elementos:' %}
+				<ul>{{ object|get_deleted_objects|unordered_list }}</ul>
+
+				<div class="row">
+					<div class="col-xs-6 text-center">				
+						<button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span> {% trans 'Eliminar' %}</button>
+					</div>
+					<div class="col-xs-6 text-center">
+						<a class="btn btn-default" href="javascript:history.back(-1)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {% trans 'Cancelar' %}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+</form>

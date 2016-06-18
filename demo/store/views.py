@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -20,14 +21,33 @@ class ActorList(ListActionsMixin, ListView):
 class ActorDetail(DetailView):
 	model = Actor
 
-class ActorCreate(CreateMessageMixin, ExtraFormsAndFormsetsMixin, CreateView):
+class ActorCreate(ExtraFormsAndFormsetsMixin, CreateMessageMixin, CreateView):
 	extra_form_list = (
-		'contact_information', 'user', forms.ContactInformationForm,
+		('contact_information', 'actor', forms.ContactForm),
 	)
 	form_class      = forms.ActorForm
 	model           = Actor
 
-class MovieCreate(CreateMessageMixin, ExtraFormsAndFormsetsMixin, CreateView):
+class ActorUpdate(ExtraFormsAndFormsetsMixin, UpdateMessageMixin, UpdateView):
+	extra_form_list = (
+		('contact_information', 'actor', forms.ContactForm),
+	)
+	form_class      = forms.ActorForm
+	model           = Actor
+
+class ActorDelete(DeleteMessageMixin, DeleteView):
+	model                = Actor
+	success_url          = reverse_lazy('store:actor_list')
+	template_name_suffix = '_form'
+
+class MovieList(ListActionsMixin, ListView):
+	action_list = (
+		( _('Add'), 'create', 'primary', 'plus'),
+	)
+	model       = Movie
+	paginate_by = 30
+
+class MovieCreate(ExtraFormsAndFormsetsMixin, CreateMessageMixin, CreateView):
 	form_class   = forms.MovieForm
 	formset_list = (
 		forms.MovieCastFormSet,

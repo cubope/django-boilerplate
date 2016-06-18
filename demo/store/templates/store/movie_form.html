@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% load boilerplate i18n %}
+
+{% block title %}{% include 'form-title.html' %}{% endblock %}
+
+{% block content %}
+	<div class="page-header">
+		<h1>{% include 'form-title.html' %}</h1>
+	</div>
+	
+	{% include 'form.html' %}
+{% endblock %}

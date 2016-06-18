@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import unicodedata
 from django import template
+from django.contrib.admin.utils import NestedObjects
 from django.core.urlresolvers import reverse
+from django.db import DEFAULT_DB_ALIAS
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 

@@ -19,7 +19,7 @@ class Actor(models.Model):
 		return '%s, %s' % (self.last_name, self.first_name)
 
 	def get_absolute_url(self):
-		return reverse_lazy('store:actor_detail', args=['self.pk', ])
+		return reverse_lazy('store:actor_detail', args=[self.pk, ])
 
 	def get_actions(self):
 		return (
@@ -27,8 +27,8 @@ class Actor(models.Model):
 			( _('Delete'), 'delete', 'danger', 'trash' ),
 		)
 
-class ContactInformation(models.Model):
-	actor   = models.OneToOneField(Actor, editable=False, related_name='contact_information') # The related_name is crucial
+class Contact(models.Model):
+	actor   = models.OneToOneField(Actor, related_name='contact_information') # The related_name is crucial
 	phone   = models.CharField(max_length=30)
 	email   = models.EmailField()
 	address = models.TextField(blank=True)
@@ -51,7 +51,7 @@ class Movie(models.Model):
 		return '%s' % self.name
 
 	def get_absolute_url(self):
-		return reverse_lazy('store:movie_detail', args=['self.pk', ])
+		return reverse_lazy('store:movie_detail', args=[self.pk, ])
 
 class Cast(models.Model):
 	movie       = models.ForeignKey(Movie)
@@ -69,4 +69,4 @@ class Cast(models.Model):
 		return '%s' % self.name
 
 	def get_absolute_url(self):
-		return reverse_lazy('store:cast_detail', args=['self.pk', ])
+		return reverse_lazy('store:cast_detail', args=[self.pk, ])

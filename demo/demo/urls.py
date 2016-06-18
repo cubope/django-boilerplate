@@ -24,5 +24,5 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
-    url(_(r'^'), include('store.urls')),
+    url(_(r'^'), include('store.urls', namespace='store')),
 )

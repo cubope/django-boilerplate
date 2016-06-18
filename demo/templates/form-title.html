@@ -1,0 +1,9 @@
+{% load boilerplate i18n %}
+
+{% if object and form %}
+	{% trans 'Update' %} {{ object }}
+{% elif form %}
+	{% trans 'Add' %} {{ form|form_model_name }}
+{% else %}
+	{% trans 'Delete' %} {{ object }}
+{% endif %}
