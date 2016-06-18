@@ -12,5 +12,23 @@
 				<a href="http://django-boilerplate-docs.readthedocs.io" target="_blank">Documentation</a>
 			</li>
 		</ul>
+
+		<ul class="nav navbar-nav navbar-right">
+			{% if request.user.is_authenticated %}
+			<li>
+				<a href="{% url 'account:password' %}">Change Password</a>
+			</li>
+			<li>
+				<a href="{% url 'account:logout' %}">Logout</a>
+			</li>
+			{% else %}
+			<li>
+				<a href="{% url 'account:login' %}">Login</a>
+			</li>
+			<li>
+				<a href="{% url 'account:registration' %}">Register</a>
+			</li>
+			{% endif %}
+		</ul>
 	</div>
 </nav>

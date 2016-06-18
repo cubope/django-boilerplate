@@ -16,7 +16,8 @@ def send_raw_mail(user, template_prefix, subject, object=None, from_name=None, f
 		send_raw_mail(<User:user>, 'recover_password', 'Recover Password', {'url': XXX})
 	"""
 	if isinstance(user, User):
-		translation.activate(user.profile.language)
+		if hasattr(user, 'profile'):
+			translation.activate(user.profile.language)
 		to_email = user.email
 	else:
 		to_email = user
@@ -35,8 +36,9 @@ def send_raw_mail(user, template_prefix, subject, object=None, from_name=None, f
 	text_content   = template_plain.render(context)
 	msg            = EmailMultiAlternatives(subject, text_content, '%s <%s>' % (from_name, from_email), [to_email, ])
 
-	for name, file, content_type in files:
-		msg.attach(name, file.read(), content_type)
+	if files:
+		for name, file, content_type in files:
+			msg.attach(name, file.read(), content_type)
 
 	return msg.send()
 
@@ -49,7 +51,8 @@ def send_html_mail(user, template_prefix, subject, object=None, from_name=None, 
 		send_html_mail(<User:user>, 'recover_password', 'Recover Password', {'url': XXX})
 	"""
 	if isinstance(user, User):
-		translation.activate(user.profile.language)
+		if hasattr(user, 'profile'):
+			translation.activate(user.profile.language)
 		to_email = user.email
 	else:
 		to_email = user
@@ -71,7 +74,8 @@ def send_html_mail(user, template_prefix, subject, object=None, from_name=None, 
 	msg            = EmailMultiAlternatives(subject, text_content, '%s <%s>' % (from_name, from_email), [to_email, ])
 	msg.attach_alternative(html_content, 'text/html')
 
-	for name, file, content_type in files:
-		msg.attach(name, file.read(), content_type)
+	if files:
+		for name, file, content_type in files:
+			msg.attach(name, file.read(), content_type)
 
 	return msg.send()

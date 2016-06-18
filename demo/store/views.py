@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from boilerplate.views import CreateMessageMixin, DeleteMessageMixin, ExtraFormsAndFormsetsMixin, ListActionsMixin, UpdateMessageMixin
+from boilerplate.mixins import CreateMessageMixin, DeleteMessageMixin, ExtraFormsAndFormsetsMixin, ListActionsMixin, UpdateMessageMixin
 
 from . import forms 
 from .models import Actor, Movie

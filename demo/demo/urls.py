@@ -25,4 +25,5 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     url(_(r'^'), include('store.urls', namespace='store')),
+    url(_(r'^account/'), include('account.urls', namespace='account')),
 )

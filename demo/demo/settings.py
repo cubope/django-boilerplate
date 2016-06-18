@@ -45,7 +45,8 @@ INSTALLED_APPS = (
     # Boilerplate
     'boilerplate',
     # Apps
-    'store'
+    'account',
+    'store',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -123,3 +124,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_URL   = '/media/'
 
 STATIC_URL  = '/static/'
+
+from django.core.urlresolvers import reverse_lazy
+LOGIN_URL = reverse_lazy('account:login')

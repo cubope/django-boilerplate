@@ -16,6 +16,7 @@ Advanced topics
 
   templatetags
   mail
+  mixins
   views
 
 Extra
