@@ -20,7 +20,7 @@ def send_raw_mail(user, template_prefix, subject, object=None, from_name=None, f
 		to_email = user.email
 	else:
 		to_email = user
-	
+
 	if not from_name:
 		from_name = settings.DEFAULT_FROM_EMAIL
 
@@ -34,7 +34,7 @@ def send_raw_mail(user, template_prefix, subject, object=None, from_name=None, f
 	template_plain = get_template('mail/' + template_prefix + '.txt')
 	text_content   = template_plain.render(context)
 	msg            = EmailMultiAlternatives(subject, text_content, '%s <%s>' % (from_name, from_email), [to_email, ])
-	
+
 	for name, file, content_type in files:
 		msg.attach(name, file.read(), content_type)
 
@@ -53,7 +53,7 @@ def send_html_mail(user, template_prefix, subject, object=None, from_name=None, 
 		to_email = user.email
 	else:
 		to_email = user
-	
+
 	if not from_name:
 		from_name = settings.DEFAULT_FROM_EMAIL
 
@@ -73,5 +73,5 @@ def send_html_mail(user, template_prefix, subject, object=None, from_name=None, 
 
 	for name, file, content_type in files:
 		msg.attach(name, file.read(), content_type)
-	
+
 	return msg.send()
