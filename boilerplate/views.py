@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.shortcuts import redirect
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
 from django.views.generic.edit import CreateView, FormView, UpdateView
 

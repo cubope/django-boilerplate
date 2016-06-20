@@ -2,6 +2,10 @@
 
 History
 -------
+0.2.1 (2016-06-20)
+++++++++++++++++++
+* Fix: Forgot to import translation at `views.py`.
+
 0.2.0 (2016-06-18)
 ++++++++++++++++++
 * Rename: `views.py` to `mixins.py` because is the propper name
