@@ -2,7 +2,11 @@
 
 History
 -------
-0.2.3 (2016-06-20)
+0.2.4 (2016-06-26)
+++++++++++++++++++
+* Fix: PIL as new requirement
+
+0.2.3 (2016-06-26)
 ++++++++++++++++++
 * Added: `add_view_permissions`: Create a post migrate signal to add a new view
 permission to all the model
