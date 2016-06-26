@@ -39,8 +39,9 @@ setup(
         'boilerplate',
     ],
     include_package_data=True,
-    install_requires=[
-    ],
+    extras_require={
+        'Pillow': ['pillow'],
+    },
     license="Apache License 2.0",
     zip_safe=False,
     keywords=['django', 'boilerplate'],
