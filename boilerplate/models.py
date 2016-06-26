@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import StringIO
+try:
+	from StringIO import StringIO
+except ImportError:
+	from io import StringIO
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage as storage

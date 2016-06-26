@@ -2,9 +2,11 @@
 
 History
 -------
-0.2.4 (2016-06-26)
+0.2.5 (2016-06-26)
 ++++++++++++++++++
 * Fix: PIL as new requirement
+* Fix: Requirements
+* Fix: Python3 compatibility
 
 0.2.3 (2016-06-26)
 ++++++++++++++++++
