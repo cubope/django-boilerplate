@@ -2,6 +2,12 @@
 
 History
 -------
+0.2.3 (2016-06-20)
+++++++++++++++++++
+* Added: `add_view_permissions`: Create a post migrate signal to add a new view
+permission to all the model
+* Added: `ModelImageThumbs`, and automatically create thumbnails from the images that you upload.
+
 0.2.1 (2016-06-20)
 ++++++++++++++++++
 * Fix: Forgot to import translation at `views.py`.
