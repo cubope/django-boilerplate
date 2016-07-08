@@ -30,7 +30,7 @@ class ModelImageThumbs(object):
 				if not field:
 					working = imgFile.copy()
 					working = working.resize(size, Image.ANTIALIAS)
-					fp      = StringIO.StringIO()
+					fp      = StringIO()
 					working.save(fp, 'JPEG', quality=95)
 					cf      = ContentFile( fp.getvalue() )
 					field.save(name=self.image.name, content=cf, save=True)
