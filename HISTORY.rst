@@ -2,6 +2,11 @@
 
 History
 -------
+0.2.7 (2016-07-21)
+++++++++++++++++++
+* Fix: Mixin CreateModelMixin
+* Improvement: No loger convert template tags to titles
+
 0.2.5 (2016-06-26)
 ++++++++++++++++++
 * Fix: PIL as new requirement

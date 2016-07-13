@@ -59,7 +59,7 @@ class CreateModelMixin(object):
 	def form_valid(self, form):
 		setattr(form.instance, self.field_user, self.request.user)
 
-		return super(CreateUserMixin, self).form_valid(form)
+		return super(CreateModelMixin, self).form_valid(form)
 
 class CRUDMessageMixin(object):
 	message_action  = None

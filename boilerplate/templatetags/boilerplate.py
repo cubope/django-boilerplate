@@ -35,14 +35,14 @@ def form_model_name(value):
 	"""
 	Return the model verbose name of a form model
 	"""
-	return value._meta.model._meta.verbose_name.title()
+	return value._meta.model._meta.verbose_name
 
 @register.filter
 def form_model_name_plural(value):
 	"""
 	Return the model verbose name plural of a form model
 	"""
-	return value._meta.model._meta.verbose_name_plural.title()
+	return value._meta.model._meta.verbose_name_plural
 
 @register.filter
 def form_model_url(value):
@@ -56,7 +56,7 @@ def form_app_name(value):
 	"""
 	Return the app name of a form model
 	"""
-	return value._meta.model._meta.app_config.verbose_name.title()
+	return value._meta.model._meta.app_config.verbose_name
 
 @register.filter
 def form_app_url(value):
@@ -77,14 +77,14 @@ def formset_model_name(value):
 	"""
 	Return the model verbose name of a formset
 	"""
-	return value.model._meta.verbose_name.title()
+	return value.model._meta.verbose_name
 
 @register.filter
 def formset_model_name_plural(value):
 	"""
 	Return the model verbose name plural of a formset
 	"""
-	return value.model._meta.verbose_name_plural.title()
+	return value.model._meta.verbose_name_plural
 
 """
 
@@ -116,21 +116,21 @@ def model_name(value):
 	"""
 	Return the model verbose name of an object
 	"""
-	return value._meta.verbose_name.title()
+	return value._meta.verbose_name
 
 @register.filter
 def model_name_plural(value):
 	"""
 	Return the model verbose name plural of an object
 	"""
-	return value._meta.verbose_name_plural.title()
+	return value._meta.verbose_name_plural
 
 @register.filter
 def model_app_name(value):
 	"""
 	Return the app verbose name of an object
 	"""
-	return value._meta.app_config.verbose_name.title()
+	return value._meta.app_config.verbose_name
 
 @register.filter
 def model_app_url(value):
@@ -156,7 +156,7 @@ def queryset_app_name(value):
 	"""
 	Return the app verbose name of a queryset
 	"""
-	return value.model._meta.app_config.verbose_name.title()
+	return value.model._meta.app_config.verbose_name
 
 @register.filter
 def queryset_app_url(value):
@@ -170,7 +170,7 @@ def queryset_model_name_plural(value):
 	"""
 	Return the app verbose name plural of a queryset
 	"""
-	return value.model._meta.verbose_name_plural.title()
+	return value.model._meta.verbose_name_plural
 
 @register.filter
 def queryset_model_url(value):
