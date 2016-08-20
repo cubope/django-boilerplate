@@ -111,6 +111,26 @@ def model_action(value, action):
 	name =  value._meta.model._meta.app_label + ':' + value._meta.model.__name__.lower() + "_" + action
 	return reverse(name, args=(value.pk,))
 
+@register.simple_tag
+def model_child_action(value, parent, action):
+	"""
+	**Tag name**
+	::
+		model_child_action
+	
+	Return the full url name of an action
+	
+	**Usage**
+	::
+		{% model_child_action object parent action %}
+	
+	**Example**
+	::
+		{% model_child_action object parent 'update' %}
+	"""
+	name =  value._meta.model._meta.app_label + ':' + parent._meta.model.__name__.lower() + "_" + value._meta.model.__name__.lower() + "_" + action
+	return reverse(name, args=(parent.pk, value.pk,))
+
 @register.filter
 def model_name(value):
 	"""

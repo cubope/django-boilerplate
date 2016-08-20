@@ -2,6 +2,10 @@
 
 History
 -------
+0.2.8 (2016-08-19)
+++++++++++++++++++
+* Add: New model child action template tag
+
 0.2.7 (2016-07-21)
 ++++++++++++++++++
 * Fix: Mixin CreateModelMixin
