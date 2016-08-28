@@ -14,7 +14,7 @@ from django.views.generic.edit import CreateView, FormView, UpdateView
 
 from . import forms
 from boilerplate import messages as boilerplate_messages, recover_url_name, site_name
-from mail import send_html_mail
+from mail import SendEmail
 from mixins import NoLoginRequiredMixin
 
 class ChangePasswordView(LoginRequiredMixin, UpdateView):
@@ -78,7 +78,6 @@ class RecoverAccountView(NoLoginRequiredMixin, FormView):
 		object   = {
 			'email': user.email,
 			'domain': self.request.META['HTTP_HOST'],
-			'site_name': site_name(),
 			'url_name': self.recover_url,
 			'uid': urlsafe_base64_encode(force_bytes(user.pk)),
 			'user': user,
@@ -87,7 +86,10 @@ class RecoverAccountView(NoLoginRequiredMixin, FormView):
 		}
 		messages.success(self.request, boilerplate_messages().get('recover_sent') % dict(email=user.email))
 
-		send_html_mail(user, 'recover-account', boilerplate_messages().get('recover_subject') % dict(site_name=site_name()), object, site_name())
+		mail = SendEmail(to=user.email, template_name_suffix='recover-account', subject=boilerplate_messages().get('recover_subject'), is_html=True)
+		mail.set_from_name('No Reply')
+		mail.add_context_data('object', object)
+		mail.send()
 		
 		return super(RecoverAccountView, self).form_valid(form)
 

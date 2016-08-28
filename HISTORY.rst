@@ -2,6 +2,10 @@
 
 History
 -------
+0.3.0 (2016-08-29)
+++++++++++++++++++
+* Change: Improove mail, now it's a class not a function
+
 0.2.8 (2016-08-19)
 ++++++++++++++++++
 * Add: New model child action template tag

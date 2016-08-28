@@ -19,7 +19,7 @@ BOILERPLATE_DEFAULTS = {
 		'registration_username_already': _('Username already taken.'),
 		'registration_email_already': _('Another account has that email.'),
 		'recover_sent': _('An email has been sent to %(email)s. Please check its inbox to continue reseting password.'),
-		'recover_subject': _('[%s] Recover your account information'),
+		'recover_subject': _('Recover your account information'),
 	}
 }
 

@@ -60,6 +60,11 @@ model_action
 
 .. autofunction:: boilerplate.templatetags.boilerplate.model_action
 
+model_child_action
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. autofunction:: boilerplate.templatetags.boilerplate.model_child_action
+
 model_name
 ~~~~~~~~~~~~~~~~~~~~~~
 

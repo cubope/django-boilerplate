@@ -1,6 +1,5 @@
 Views
 ============
-
 .. currentmodule:: boilerplate.views
 
 ChangePasswordView
