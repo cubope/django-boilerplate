@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import messages
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.utils import six
 from django.utils.translation import ugettext_lazy as _
 
@@ -126,7 +126,7 @@ class ExtraFormsAndFormsetsMixin(object):
 	"""
 	Mixin for :class:`~django.views.generic.edit.CreateView` or
 	:class:`~django.views.generic.edit.UpdateView` classes that
-	adds a success message after the action is completed successfully.
+	adds extra forms and formsets to any of thoose views.
 
 	**Example**
 	::
@@ -300,3 +300,78 @@ class ExtraFormsAndFormsetsMixin(object):
 			kwargs['formsets'] = self.get_formsets()
 		
 		return super(ExtraFormsAndFormsetsMixin, self).get_context_data(**kwargs)
+
+class ParentMixin(object):
+	"""
+	Mixin for :class:`~django.views.generic.edit.CreateView` or
+	:class:`~django.views.generic.edit.UpdateView` classes that
+	adds a success message after the action is completed successfully.
+
+	**Example**
+	::
+		class ProfileUpdate(ParentMixin, UpdateView):
+			model               = Profile
+			parent_model        = User
+			parent_lookup_arg   = 'pk_parent'
+			parent_lookup_field = 'pk'
+	"""
+	parent_model          = None
+	parent_lookup_arg     = 'pk_parent'
+	parent_lookup_field   = 'pk'
+
+	def get_parent_model(self):
+		return self.parent_model
+
+	def get_parent_lookup_arg(self):
+		return self.parent_lookup_arg
+
+	def get_parent_lookup_field(self):
+		return self.parent_lookup_field
+
+	def get_parent_kwargs(self):
+		kwargs = {
+			self.get_parent_lookup_field(): self.kwargs[self.get_parent_lookup_arg()],
+		}
+
+		return kwargs
+
+	def get_parent(self):
+		return get_object_or_404(self.get_parent_model(), **self.get_parent_kwargs())
+
+	def get_context_data(self, **kwargs):
+		if 'parent' not in kwargs:
+			kwargs['parent'] = self.get_parent()
+
+		return super(ParentMixin, self).get_context_data(**kwargs)
+
+class ParentCreateMixin(ParentMixin):
+	parent_set_field = None
+
+	def get_parent_set_field(self):
+		return self.parent_set_field
+
+	def form_valid(self, form):
+		setattr(form.instance, self.get_parent_set_field(), self.get_parent())
+
+		return super(ParentCreateMixin, self).form_valid(form)
+
+class ParentCreateExtraMixin(ParentCreateMixin):
+	def form_valid(self, form, extra_forms, formsets):
+		setattr(form.instance, self.get_parent_set_field(), self.get_parent())
+
+		return super(ParentCreateExtraMixin, self).form_valid(form, extra_forms, formsets)
+
+class ParentSingleObjectMixin(ParentMixin):
+	parent_relation_field = None
+
+	def get_parent_relation_field(self):
+		return self.parent_relation_field
+
+	def get_queryset(self):
+		qs = super(ParentSingleObjectMixin, self).get_queryset()
+
+		kwargs = {
+			self.get_parent_relation_field(): self.get_parent(),
+		}
+
+		return qs.filter(**kwargs)

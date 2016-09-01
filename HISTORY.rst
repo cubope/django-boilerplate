@@ -2,6 +2,14 @@
 
 History
 -------
+0.3.3 (2016-08-30)
+++++++++++++++++++
+* Bug: Fix minor bugs
+
+0.3.2 (2016-08-30)
+++++++++++++++++++
+* Add: Parent model mixins
+
 0.3.0 (2016-08-29)
 ++++++++++++++++++
 * Change: Improove mail, now it's a class not a function
