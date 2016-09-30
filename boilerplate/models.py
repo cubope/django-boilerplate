@@ -15,7 +15,7 @@ class ModelImageThumbs(object):
 	IMAGESIZES = None
 
 	def save(self, *args, **kwargs):
-		response = super(ImageThumbs, self).save(*args, **kwargs)
+		response = super(ModelImageThumbs, self).save(*args, **kwargs)
 
 		if self.image:
 			filename  = str(self.image.name)
