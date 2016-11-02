@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import six
 from django.utils.translation import ugettext_lazy as _
+
 
 class NoLoginRequiredMixin(object):
 	"""
@@ -18,10 +20,7 @@ class NoLoginRequiredMixin(object):
 	"""
 	def get(self, request, **kwargs):
 		if request.user.is_authenticated():
-			if request.GET.get('next', None):
-				return redirect( request.GET.get('next') )
-			
-			return redirect('/')
+			raise PermissionDenied
 
 		return super(NoLoginRequiredMixin, self).get(request, **kwargs)
 

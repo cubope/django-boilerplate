@@ -2,6 +2,14 @@
 
 History
 -------
+0.3.4 (2016-09-30)
+++++++++++++++++++
+* Fix: Raise PermissionDenied on NoLoginRequiredMixin
+
+0.3.4 (2016-09-30)
+++++++++++++++++++
+* Fix: ModelImageThumb super class
+
 0.3.3 (2016-08-30)
 ++++++++++++++++++
 * Bug: Fix minor bugs
