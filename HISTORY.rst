@@ -2,7 +2,11 @@
 
 History
 -------
-0.3.4 (2016-09-30)
+0.3.6 (2016-11-9)
+++++++++++++++++++
+* Fix: If doesn't found model name get form name
+
+0.3.5 (2016-09-30)
 ++++++++++++++++++
 * Fix: Raise PermissionDenied on NoLoginRequiredMixin
 

@@ -35,7 +35,10 @@ def form_model_name(value):
 	"""
 	Return the model verbose name of a form model
 	"""
-	return value._meta.model._meta.verbose_name
+	try:
+		return value._meta.model._meta.verbose_name
+	except:
+		return value.__class__.__name__
 
 @register.filter
 def form_model_name_plural(value):
