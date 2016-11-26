@@ -2,6 +2,10 @@
 
 History
 -------
+0.3.6 (2016-11-26)
+++++++++++++++++++
+* Fix: LoginForm username and password required fields
+
 0.3.6 (2016-11-9)
 ++++++++++++++++++
 * Fix: If doesn't found model name get form name
