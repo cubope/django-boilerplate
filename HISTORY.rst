@@ -2,6 +2,15 @@
 
 History
 -------
+0.4.5 (2017-03-25)
+++++++++++++++++++
+* Remove: `templates` folder, `forms.py` and `views.py` no longer required,  no longer required, Django cover this.
+* Add: Initial tests
+* Update: PEP8
+* Bug: `add_view_permissions` Python3 compatibility
+* Add: Allow email testing
+* Enhancement: Rename variables `formsets` to `formset_list` and `extra_forms` to `extra_form_list`
+ 
 0.3.6 (2016-11-26)
 ++++++++++++++++++
 * Fix: LoginForm username and password required fields
