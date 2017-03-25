@@ -5,6 +5,8 @@ from django.conf import settings
 
 # Default settings
 BOILERPLATE_DEFAULTS = {
+    'model_url_list_suffix': '_list',
+    'app_url_index': 'home',
 }
 
 # Start with a copy of default settings
@@ -19,24 +21,3 @@ def get_boilerplate_setting(setting, default=None):
     Read a setting
     """
     return BOILERPLATE.get(setting, default)
-
-
-def messages(**kwargs):
-    """
-    Return the dict with the messages
-    """
-    return get_boilerplate_setting('messages')
-
-
-def site_name(**kwargs):
-    """
-    Return the the full site_name
-    """
-    return get_boilerplate_setting('site_name')
-
-
-def recover_url_name(**kwargs):
-    """
-    Return the the full recover_url_name
-    """
-    return get_boilerplate_setting('recover_url_name')
