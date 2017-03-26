@@ -31,7 +31,7 @@ class ListActionsMixin(object):
     **Example**
     ::
         class ModelList(ListActionsMixin, ListView):
-            actions = (
+            action_list = (
                 _('Add'), 'create', 'primary', 'plus'),
                 _('Export'), 'export', 'success', 'export'),
             )
