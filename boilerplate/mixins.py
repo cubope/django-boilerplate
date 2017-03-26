@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import messages
-from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 
@@ -17,11 +16,11 @@ class NoLoginRequiredMixin(object):
         class Register(NoLoginRequiredMixin, FormView):
             form_class = forms.RegisterForm
     """
-    def get(self, request, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated():
-            raise PermissionDenied
+            return HttpResponseForbidden()
 
-        return super(NoLoginRequiredMixin, self).get(request, **kwargs)
+        return super(NoLoginRequiredMixin, self).get(request, *args, **kwargs)
 
 
 class ListActionsMixin(object):
@@ -50,7 +49,7 @@ class ListActionsMixin(object):
 
     def get_context_data(self, **kwargs):
         if 'actions' not in kwargs:
-            kwargs['actions'] = self.get_action_list()
+            kwargs['action_list'] = self.get_action_list()
 
         return super(ListActionsMixin, self).get_context_data(**kwargs)
 
