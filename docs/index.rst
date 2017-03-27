@@ -17,7 +17,8 @@ Advanced topics
   templatetags
   mail
   mixins
-  views
+  models
+  signals
 
 Extra
 ---------------
