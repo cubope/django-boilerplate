@@ -11,7 +11,7 @@ def add_view_permissions(sender, **kwargs):
 
     **Example**
     ::
-    # File apps.py
+    # File: apps.py
     from django.db.models.signals import post_migrate
     from boilerplate.signals import add_view_permissions
 
