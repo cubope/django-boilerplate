@@ -13,7 +13,6 @@
 # serve to show the default.
 import os
 import sys
-import boilerplate
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -24,6 +23,7 @@ sys.path.insert(0, os.path.abspath('..'))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__))))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'testsettings'
 
+import boilerplate
 
 # -- General configuration ----------------------------------------------------
 
