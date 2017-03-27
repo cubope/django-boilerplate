@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 
 
-class NoLoginRequiredMixin(object):
+class NoLoginRequiredMixin:
     """
     Mixin for any class view classes that required the current user
     if not authenticated, redirects the user to the home page or any
@@ -20,17 +20,17 @@ class NoLoginRequiredMixin(object):
         if request.user.is_authenticated():
             return HttpResponseForbidden()
 
-        return super(NoLoginRequiredMixin, self).get(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
-class ListActionsMixin(object):
+class ActionListMixin:
     """
     Mixin for :class:`~django.views.generic.list.ListView` classes that
     adds to the "context" a variable with a list of actions.
 
     **Example**
     ::
-        class ModelList(ListActionsMixin, ListView):
+        class ModelList(ActionListMixin, ListView):
             action_list = (
                 _('Add'), 'create', 'primary', 'plus'),
                 _('Export'), 'export', 'success', 'export'),
@@ -51,23 +51,41 @@ class ListActionsMixin(object):
         if 'actions' not in kwargs:
             kwargs['action_list'] = self.get_action_list()
 
-        return super(ListActionsMixin, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
 
-class CreateModelMixin(object):
+class UserCreateMixin:
+    field_user = 'user'
+
+    def get_field_user(self):
+        return self.field_user
+
     def form_valid(self, form):
-        setattr(form.instance, self.field_user, self.request.user)
+        setattr(form.instance, self.get_field_user(), self.request.user)
 
-        return super(CreateModelMixin, self).form_valid(form)
+        return super().form_valid(form)
 
 
-class CRUDMessageMixin(object):
+class CRUDMessageMixin:
+    """
+    Add a message on successful form submission.
+    """
     message_action = None
     success_message = _(
         '%(model)s: "%(name)s" has been %(action)s successfully.'
     )
 
-    def get_success_message(self):
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        success_message = self.get_success_message(form.cleaned_data)
+
+        if success_message:
+            messages.success(self.request, success_message)
+
+        return response
+
+    def get_success_message(self, cleaned_data=None):
         """
         Default success message mixin
         """
@@ -76,17 +94,6 @@ class CRUDMessageMixin(object):
             name=self.object,
             action=self.message_action,
         )
-
-    def get_success_url(self):
-        """
-        If the `get_sucess_url` if overwrite the message wont appear
-        """
-        success_message = self.get_success_message()
-
-        if success_message:
-            messages.success(self.request, success_message)
-
-        return super(CRUDMessageMixin, self).get_success_url()
 
 
 class CreateMessageMixin(CRUDMessageMixin):
@@ -127,8 +134,18 @@ class DeleteMessageMixin(CRUDMessageMixin):
     """
     message_action = 'deleted'
 
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
 
-class ExtraFormsAndFormsetsMixin(object):
+        success_message = self.get_success_message()
+
+        if success_message:
+            messages.success(self.request, success_message)
+
+        return response
+
+
+class ExtraFormsAndFormsetsMixin:
     """
     Mixin for :class:`~django.views.generic.edit.CreateView` or
     :class:`~django.views.generic.edit.UpdateView` classes that
@@ -264,7 +281,7 @@ class ExtraFormsAndFormsetsMixin(object):
 
         return self.form_valid(form, extra_forms, formsets)
 
-    def form_valid(self, form, extra_forms, formsets):
+    def form_valid(self, form, extra_forms=None, formsets=None):
         """
         If the form is valid, redirect to the supplied URL.
         """
@@ -280,7 +297,7 @@ class ExtraFormsAndFormsetsMixin(object):
 
         return HttpResponseRedirect(self.get_success_url())
 
-    def form_invalid(self, form, extra_forms, formsets):
+    def form_invalid(self, form, extra_forms=None, formsets=None):
         """
         If the form or the extra forms are invalid, re-render the context
         data with the data-filled form and errors.
@@ -311,12 +328,10 @@ class ExtraFormsAndFormsetsMixin(object):
         if 'formset_list' not in kwargs:
             kwargs['formset_list'] = self.get_formsets()
 
-        return super(ExtraFormsAndFormsetsMixin, self).get_context_data(
-            **kwargs
-        )
+        return super().get_context_data(**kwargs)
 
 
-class ParentMixin(object):
+class ParentMixin:
     """
     Mixin for :class:`~django.views.generic.edit.CreateView` or
     :class:`~django.views.generic.edit.UpdateView` classes that
@@ -325,9 +340,9 @@ class ParentMixin(object):
     **Example**
     ::
         class ProfileUpdate(ParentMixin, UpdateView):
-            model               = Profile
-            parent_model        = User
-            parent_lookup_arg   = 'pk_parent'
+            model = Profile
+            parent_model = User
+            parent_lookup_arg = 'pk_parent'
             parent_lookup_field = 'pk'
     """
     parent_model = None
@@ -358,10 +373,10 @@ class ParentMixin(object):
         )
 
     def get_context_data(self, **kwargs):
-        if 'parent' not in kwargs:
-            kwargs['parent'] = self.get_parent()
+        if 'parent_object' not in kwargs:
+            kwargs['parent_object'] = self.get_parent()
 
-        return super(ParentMixin, self).get_context_data(**kwargs)
+        return super().get_context_data(**kwargs)
 
 
 class ParentCreateMixin(ParentMixin):
@@ -375,16 +390,14 @@ class ParentCreateMixin(ParentMixin):
             form.instance, self.get_parent_relation_field(), self.get_parent()
         )
 
-        return super(ParentCreateMixin, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class ParentCreateExtraMixin(ParentCreateMixin):
     def form_valid(self, form, extra_forms, formsets):
         setattr(form.instance, self.get_parent_set_field(), self.get_parent())
 
-        return super(ParentCreateExtraMixin, self).form_valid(
-            form, extra_forms, formsets
-        )
+        return super().form_valid(form, extra_forms, formsets)
 
 
 class ParentSingleObjectMixin(ParentMixin):
@@ -394,7 +407,7 @@ class ParentSingleObjectMixin(ParentMixin):
         return self.parent_relation_field
 
     def get_queryset(self):
-        qs = super(ParentSingleObjectMixin, self).get_queryset()
+        qs = super().get_queryset()
 
         kwargs = {
             self.get_parent_relation_field(): self.get_parent(),
