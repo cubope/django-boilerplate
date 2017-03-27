@@ -33,5 +33,6 @@ def add_view_permissions(sender, **kwargs):
 
         if created:
             sys.stdout.write(
-                "Added view permission for %s\n" % content_type.name
+                'Added view permission for %s' % content_type.name +
+                '\n'
             )
