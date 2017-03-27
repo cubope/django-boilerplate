@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 
 
-class NoLoginRequiredMixin:
+class NoLoginRequiredMixin(object):
     """
     Mixin for any class view classes that required the current user
     if not authenticated, redirects the user to the home page or any
@@ -20,10 +20,12 @@ class NoLoginRequiredMixin:
         if request.user.is_authenticated():
             return HttpResponseForbidden()
 
-        return super().dispatch(request, *args, **kwargs)
+        return super(NoLoginRequiredMixin, self).dispatch(
+            request, *args, **kwargs
+        )
 
 
-class ActionListMixin:
+class ActionListMixin(object):
     """
     Mixin for :class:`~django.views.generic.list.ListView` classes that
     adds to the "context" a variable with a list of actions.
@@ -51,10 +53,10 @@ class ActionListMixin:
         if 'actions' not in kwargs:
             kwargs['action_list'] = self.get_action_list()
 
-        return super().get_context_data(**kwargs)
+        return super(ActionListMixin, self).get_context_data(**kwargs)
 
 
-class UserCreateMixin:
+class UserCreateMixin(object):
     field_user = 'user'
 
     def get_field_user(self):
@@ -63,10 +65,10 @@ class UserCreateMixin:
     def form_valid(self, form):
         setattr(form.instance, self.get_field_user(), self.request.user)
 
-        return super().form_valid(form)
+        return super(UserCreateMixin, self).form_valid(form)
 
 
-class CRUDMessageMixin:
+class CRUDMessageMixin(object):
     """
     Add a message on successful form submission.
     """
@@ -76,7 +78,7 @@ class CRUDMessageMixin:
     )
 
     def form_valid(self, form):
-        response = super().form_valid(form)
+        response = super(CRUDMessageMixin, self).form_valid(form)
 
         success_message = self.get_success_message(form.cleaned_data)
 
@@ -135,7 +137,9 @@ class DeleteMessageMixin(CRUDMessageMixin):
     message_action = 'deleted'
 
     def delete(self, request, *args, **kwargs):
-        response = super().delete(request, *args, **kwargs)
+        response = super(DeleteMessageMixin, self).delete(
+            request, *args, **kwargs
+        )
 
         success_message = self.get_success_message()
 
@@ -145,7 +149,7 @@ class DeleteMessageMixin(CRUDMessageMixin):
         return response
 
 
-class ExtraFormsAndFormsetsMixin:
+class ExtraFormsAndFormsetsMixin(object):
     """
     Mixin for :class:`~django.views.generic.edit.CreateView` or
     :class:`~django.views.generic.edit.UpdateView` classes that
@@ -328,10 +332,12 @@ class ExtraFormsAndFormsetsMixin:
         if 'formset_list' not in kwargs:
             kwargs['formset_list'] = self.get_formsets()
 
-        return super().get_context_data(**kwargs)
+        return super(
+            ExtraFormsAndFormsetsMixin, self
+        ).get_context_data(**kwargs)
 
 
-class ParentMixin:
+class ParentMixin(object):
     """
     Mixin for :class:`~django.views.generic.edit.CreateView` or
     :class:`~django.views.generic.edit.UpdateView` classes that
@@ -376,7 +382,7 @@ class ParentMixin:
         if 'parent_object' not in kwargs:
             kwargs['parent_object'] = self.get_parent()
 
-        return super().get_context_data(**kwargs)
+        return super(ParentMixin, self).get_context_data(**kwargs)
 
 
 class ParentCreateMixin(ParentMixin):
@@ -390,14 +396,16 @@ class ParentCreateMixin(ParentMixin):
             form.instance, self.get_parent_relation_field(), self.get_parent()
         )
 
-        return super().form_valid(form)
+        return super(ParentCreateMixin, self).form_valid(form)
 
 
 class ParentCreateExtraMixin(ParentCreateMixin):
     def form_valid(self, form, extra_forms, formsets):
         setattr(form.instance, self.get_parent_set_field(), self.get_parent())
 
-        return super().form_valid(form, extra_forms, formsets)
+        return super(ParentCreateExtraMixin, self).form_valid(
+            form, extra_forms, formsets
+        )
 
 
 class ParentSingleObjectMixin(ParentMixin):
@@ -407,7 +415,7 @@ class ParentSingleObjectMixin(ParentMixin):
         return self.parent_relation_field
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super(ParentSingleObjectMixin, self).get_queryset()
 
         kwargs = {
             self.get_parent_relation_field(): self.get_parent(),
