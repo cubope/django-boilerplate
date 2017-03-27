@@ -2,6 +2,12 @@
 
 History
 -------
+0.4.8 (2017-03-27)
+++++++++++++++++++
+* Rename: `permissions.py` to `signals.py`
+* Add: Documentation `add_view_permissions` 
+* Add: More tests 
+
 0.4.5 (2017-03-25)
 ++++++++++++++++++
 * Remove: `templates` folder, `forms.py` and `views.py` no longer required,  no longer required, Django cover this.
