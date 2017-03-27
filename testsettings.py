@@ -1,6 +1,8 @@
 import django.conf.global_settings as DEFAULT_SETTINGS
 
+
 SECRET_KEY = 'boilerplateattherescue'
+
 
 DATABASES = {
     'default': {
@@ -8,6 +10,7 @@ DATABASES = {
         'NAME': ':memory:',
     },
 }
+
 
 INSTALLED_APPS = (
     # Default Django apps
@@ -24,6 +27,10 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = DEFAULT_SETTINGS.MIDDLEWARE_CLASSES
 
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
+
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
     'APP_DIRS': True,
@@ -39,5 +46,6 @@ TEMPLATES = [{
         ]
     }
 }]
+
 
 ROOT_URLCONF = None
