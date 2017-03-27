@@ -19,12 +19,12 @@ from django.template import engines
 from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
-from boilerplate.mixins import (
+from .mixins import (
     NoLoginRequiredMixin, ActionListMixin, UserCreateMixin, CreateMessageMixin,
     UpdateMessageMixin, DeleteMessageMixin, ExtraFormsAndFormsetsMixin,
     ParentCreateMixin, ParentSingleObjectMixin
 )
-from boilerplate.signals import add_view_permissions
+from .signals import add_view_permissions
 
 
 class TestModelForm(forms.ModelForm):
@@ -254,97 +254,108 @@ class SignalTest(TestCase):
         # self.assertIn('Added view permission', out.getvalue())
 
 
+class NoLoginRequiredView(NoLoginRequiredMixin, TemplateView):
+        template_name = 'any_template.html'
+
+
+class ActionListView(ActionListMixin, TemplateView):
+    action_list = (
+        'Add', 'Change', 'Delete'
+    )
+    template_name = 'any_template.html'
+
+
+class UserCreateView(UserCreateMixin, CreateView):
+    fields = (
+        'content_type', 'object_id', 'object_repr', 'action_flag',
+    )
+    model = LogEntry
+    success_url = '/fake-path-success'
+
+    def form_valid(self, form):
+        super(UserCreateView, self).form_valid(form)
+        return self.object
+
+
+class CreateMessageView(CreateMessageMixin, CreateView):
+    fields = ('username', 'email')
+    model = User
+    success_url = '/fake-path-success'
+
+    def form_valid(self, form):
+        super(CreateMessageView, self).form_valid(form)
+        return self.render_to_response(self.get_context_data(form=form))
+
+
+class UpdateMessageView(UpdateMessageMixin, UpdateView):
+    fields = ('username', 'email')
+    model = User
+    success_url = '/fake-path-success'
+
+    def get_object(self):
+        obj, created = User.objects.get_or_create(username="gclooney")
+        return obj
+
+    def form_valid(self, form):
+        super(UpdateMessageView, self).form_valid(form)
+        return self.render_to_response(self.get_context_data(form=form))
+
+
+class DeleteMessageView(DeleteMessageMixin, DeleteView):
+    model = User
+    success_url = '/fake-path-success'
+
+    def get_object(self):
+        obj, created = User.objects.get_or_create(username="gclooney")
+        return obj
+
+    def delete(self, request, *args, **kwargs):
+        super(DeleteMessageView, self).delete(request, *args, **kwargs)
+        return self.render_to_response({})
+
+
+class ParentCreateView(ParentCreateMixin, CreateView):
+    fields = ('codename', 'name')
+    model = Permission
+    parent_model = ContentType
+    parent_relation_field = 'content_type'
+    success_url = '/fake-path-success'
+
+    def form_valid(self, form):
+        super(ParentCreateView, self).form_valid(form)
+        return self.object
+
+
+class ParentSingleObjectView(ParentSingleObjectMixin, DetailView):
+    model = Permission
+    parent_model = ContentType
+    parent_relation_field = 'content_type'
+
+
+class ExtraFormsAndFormsetsView(ExtraFormsAndFormsetsMixin, UpdateView):
+    PermissionFormSet = inlineformset_factory(
+        ContentType,
+        Permission,
+        fields='__all__',
+        extra=1,
+        can_delete=False,
+
+    )
+    fields = '__all__'
+    model = ContentType
+    formset_list = (
+        PermissionFormSet,
+    )
+    success_url = '/fake-path-success'
+
+    def form_valid(self, form, extra_forms=None, formsets=None):
+        super(ExtraFormsAndFormsetsView, self).form_valid(
+            form, extra_forms, formsets
+        )
+        return self.object
+
+
 class MixinTest(TestCase):
-    class NoLoginRequiredView(NoLoginRequiredMixin, TemplateView):
-        template_name = 'any_template.html'
-
-    class ActionListView(ActionListMixin, TemplateView):
-        action_list = (
-            'Add', 'Change', 'Delete'
-        )
-        template_name = 'any_template.html'
-
-    class UserCreateView(UserCreateMixin, CreateView):
-        fields = (
-            'content_type', 'object_id', 'object_repr', 'action_flag',
-        )
-        model = LogEntry
-        success_url = '/fake-path-success'
-
-        def form_valid(self, form):
-            super().form_valid(form)
-            return self.object
-
-    class CreateMessageView(CreateMessageMixin, CreateView):
-        fields = ('username', 'email')
-        model = User
-        success_url = '/fake-path-success'
-
-        def form_valid(self, form):
-            super().form_valid(form)
-            return self.render_to_response(self.get_context_data(form=form))
-
-    class UpdateMessageView(UpdateMessageMixin, UpdateView):
-        fields = ('username', 'email')
-        model = User
-        success_url = '/fake-path-success'
-
-        def get_object(self):
-            obj, created = User.objects.get_or_create(username="gclooney")
-            return obj
-
-        def form_valid(self, form):
-            super().form_valid(form)
-            return self.render_to_response(self.get_context_data(form=form))
-
-    class DeleteMessageView(DeleteMessageMixin, DeleteView):
-        model = User
-        success_url = '/fake-path-success'
-
-        def get_object(self):
-            obj, created = User.objects.get_or_create(username="gclooney")
-            return obj
-
-        def delete(self, request, *args, **kwargs):
-            super().delete(request, *args, **kwargs)
-            return self.render_to_response({})
-
-    class ParentCreateView(ParentCreateMixin, CreateView):
-        fields = ('codename', 'name')
-        model = Permission
-        parent_model = ContentType
-        parent_relation_field = 'content_type'
-        success_url = '/fake-path-success'
-
-        def form_valid(self, form):
-            super().form_valid(form)
-            return self.object
-
-    class ParentSingleObjectView(ParentSingleObjectMixin, DetailView):
-        model = Permission
-        parent_model = ContentType
-        parent_relation_field = 'content_type'
-
-    class ExtraFormsAndFormsetsView(ExtraFormsAndFormsetsMixin, UpdateView):
-        PermissionFormSet = inlineformset_factory(
-            ContentType,
-            Permission,
-            fields='__all__',
-            extra=1,
-            can_delete=False,
-
-        )
-        fields = '__all__'
-        model = ContentType
-        formset_list = (
-            PermissionFormSet,
-        )
-        success_url = '/fake-path-success'
-
-        def form_valid(self, form, extra_forms=None, formsets=None):
-            super().form_valid(form, extra_forms, formsets)
-            return self.object
-
     def setUp(self):
         self.factory = RequestFactory()
         self.user = User.objects.create_user(
@@ -356,7 +367,7 @@ class MixinTest(TestCase):
         request = self.factory.get('/fake-path')
         request.user = AnonymousUser()
 
-        response = self.NoLoginRequiredView.as_view()(request)
+        response = NoLoginRequiredView.as_view()(request)
 
         self.assertEqual(response.status_code, 200)
 
@@ -364,15 +375,15 @@ class MixinTest(TestCase):
         request = self.factory.get('/fake-path')
         request.user = self.user
 
-        response = self.NoLoginRequiredView.as_view()(request)
+        response = NoLoginRequiredView.as_view()(request)
         self.assertEqual(response.status_code, 403)
 
     def test_action_list_mixin(self):
         request = self.factory.get('/fake-path')
-        response = self.ActionListView.as_view()(request)
+        response = ActionListView.as_view()(request)
         self.assertEqual(
             response.context_data['action_list'],
-            self.ActionListView.action_list
+            ActionListView.action_list
         )
 
     def test_user_create_mixin(self):
@@ -388,7 +399,7 @@ class MixinTest(TestCase):
             'change_message': '',
         })
         request.user = self.user
-        response = self.UserCreateView.as_view()(request)
+        response = UserCreateView.as_view()(request)
         self.assertEqual(isinstance(response, LogEntry), True)
         self.assertNotEqual(response, None)
 
@@ -398,7 +409,7 @@ class MixinTest(TestCase):
             'email': 'gclooney@test.com',
         })
         request._messages = default_storage(request)
-        self.CreateMessageView.as_view()(request)
+        CreateMessageView.as_view()(request)
 
         self.assertEqual(len(get_messages(request)), 1)
 
@@ -408,14 +419,14 @@ class MixinTest(TestCase):
             'email': 'gclooney@test.com',
         })
         request._messages = default_storage(request)
-        self.UpdateMessageView.as_view()(request)
+        UpdateMessageView.as_view()(request)
 
         self.assertEqual(len(get_messages(request)), 1)
 
     def test_delete_message_mixin(self):
         request = self.factory.post('/fake-path', {})
         request._messages = default_storage(request)
-        self.DeleteMessageView.as_view()(request)
+        DeleteMessageView.as_view()(request)
 
         self.assertEqual(len(get_messages(request)), 1)
 
@@ -428,7 +439,7 @@ class MixinTest(TestCase):
             'codename': 'test_user',
             'name': 'Test user'
         })
-        response = self.ParentCreateView.as_view()(
+        response = ParentCreateView.as_view()(
             request,
             pk_parent=content_type.id,
         )
@@ -445,7 +456,7 @@ class MixinTest(TestCase):
         )
 
         request = self.factory.get('/fake-path')
-        response = self.ParentSingleObjectView.as_view()(
+        response = ParentSingleObjectView.as_view()(
             request,
             pk_parent=content_type.id,
             pk=permission.id
@@ -458,7 +469,7 @@ class MixinTest(TestCase):
         )
 
         request = self.factory.get('/fake-path')
-        response = self.ExtraFormsAndFormsetsView.as_view()(
+        response = ExtraFormsAndFormsetsView.as_view()(
             request,
             pk=content_type.pk,
         )
@@ -488,7 +499,7 @@ class MixinTest(TestCase):
             'permission_set-3-codename': "test_contenttype",
             'permission_set-3-content_type': 5,
         })
-        response = self.ExtraFormsAndFormsetsView.as_view()(
+        response = ExtraFormsAndFormsetsView.as_view()(
             request,
             pk=content_type.pk,
         )
