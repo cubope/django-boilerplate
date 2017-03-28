@@ -289,7 +289,7 @@ class ExtraFormsAndFormsetsMixin(object):
         """
         If the form is valid, redirect to the supplied URL.
         """
-        self.object = form.save()
+        response = super(ExtraFormsAndFormsetsMixin, self).form_valid(form)
 
         for relation_field, extra_form in extra_forms:
             setattr(extra_form.instance, relation_field, self.object)
@@ -299,7 +299,7 @@ class ExtraFormsAndFormsetsMixin(object):
             formset.instance = self.object
             formset.save()
 
-        return HttpResponseRedirect(self.get_success_url())
+        return response
 
     def form_invalid(self, form, extra_forms=None, formsets=None):
         """
