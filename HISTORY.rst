@@ -2,6 +2,10 @@
 
 History
 -------
+0.4.9 (2017-03-27)
+++++++++++++++++++
+* Fix: `ExtraFormsAndFormsetsMixin` parent response prevail.
+
 0.4.8 (2017-03-27)
 ++++++++++++++++++
 * Rename: `permissions.py` to `signals.py`
