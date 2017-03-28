@@ -355,6 +355,31 @@ class ExtraFormsAndFormsetsView(ExtraFormsAndFormsetsMixin, UpdateView):
         return self.object
 
 
+class ExtraFormsAndFormsetsAndUpdateView(
+    ExtraFormsAndFormsetsMixin, UpdateMessageMixin, UpdateView
+):
+    PermissionFormSet = inlineformset_factory(
+        ContentType,
+        Permission,
+        fields='__all__',
+        extra=1,
+        can_delete=False,
+
+    )
+    fields = '__all__'
+    model = ContentType
+    formset_list = (
+        PermissionFormSet,
+    )
+    success_url = '/fake-path-success'
+
+    def form_valid(self, form, extra_forms=None, formsets=None):
+        super(ExtraFormsAndFormsetsAndUpdateView, self).form_valid(
+            form, extra_forms, formsets
+        )
+        return self.object
+
+
 class MixinTest(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
@@ -507,6 +532,45 @@ class MixinTest(TestCase):
             response.permission_set.get(codename='test_contenttype').codename,
             'test_contenttype'
         )
+
+    def test_extra_forms_and_formsets_and_update_message_mixin(self):
+        content_type = ContentType.objects.get(
+            app_label='contenttypes', model='contenttype',
+        )
+
+        request = self.factory.post('/fake-path', {
+            'app_label': content_type.app_label,
+            'model': content_type.model,
+            'permission_set-TOTAL_FORMS': 4,
+            'permission_set-INITIAL_FORMS': 3,
+            'permission_set-MIN_NUM_FORMS': 0,
+            'permission_set-MAX_NUM_FORMS': 1000,
+            'permission_set-0-name': "Can add content type",
+            'permission_set-0-codename': "add_contenttype",
+            'permission_set-0-id': 13,
+            'permission_set-0-content_type': 5,
+            'permission_set-1-name': "Can change content type",
+            'permission_set-1-codename': "change_contenttype",
+            'permission_set-1-id': 14,
+            'permission_set-1-content_type': 5,
+            'permission_set-2-name': "Can delete content type",
+            'permission_set-2-codename': "delete_contenttype",
+            'permission_set-2-id': 15,
+            'permission_set-2-content_type': 5,
+            'permission_set-3-name': "Can test content type",
+            'permission_set-3-codename': "test_contenttype",
+            'permission_set-3-content_type': 5,
+        })
+        request._messages = default_storage(request)
+        response = ExtraFormsAndFormsetsAndUpdateView.as_view()(
+            request,
+            pk=content_type.pk,
+        )
+        self.assertEqual(
+            response.permission_set.get(codename='test_contenttype').codename,
+            'test_contenttype'
+        )
+        self.assertEqual(len(get_messages(request)), 1)
 
 
 class MailTest(TestCase):
