@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import messages
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.db import transaction
+from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 
@@ -289,17 +290,22 @@ class ExtraFormsAndFormsetsMixin(object):
         """
         If the form is valid, redirect to the supplied URL.
         """
-        response = super(ExtraFormsAndFormsetsMixin, self).form_valid(form)
+        try:
+            with transaction.atomic():
+                response = super(
+                    ExtraFormsAndFormsetsMixin, self
+                ).form_valid(form)
 
-        for relation_field, extra_form in extra_forms:
-            setattr(extra_form.instance, relation_field, self.object)
-            extra_form.save()
+                for relation_field, extra_form in extra_forms:
+                    setattr(extra_form.instance, relation_field, self.object)
+                    extra_form.save()
 
-        for formset in formsets:
-            formset.instance = self.object
-            formset.save()
-
-        return response
+                for formset in formsets:
+                    formset.instance = self.object
+                    formset.save()
+            return response
+        except:
+            return self.form_invalid(form, extra_forms, formsets)
 
     def form_invalid(self, form, extra_forms=None, formsets=None):
         """

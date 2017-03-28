@@ -2,6 +2,10 @@
 
 History
 -------
+0.5.0 (2017-03-28)
+++++++++++++++++++
+* Add: `ExtraFormsAndFormsetsMixin` trasactions ar atomic now, if something fails nothings gets saved.
+
 0.4.9 (2017-03-27)
 ++++++++++++++++++
 * Fix: `ExtraFormsAndFormsetsMixin` parent response prevail.
