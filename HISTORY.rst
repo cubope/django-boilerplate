@@ -2,7 +2,7 @@
 
 History
 -------
-0.5.3 (2017-03-31)
+0.5.4 (2017-03-31)
 ++++++++++++++++++
 * Add: `ModelImageThumbs` Python 3 support.
 * Add: `six` requirements.txt
