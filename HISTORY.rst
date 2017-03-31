@@ -2,6 +2,10 @@
 
 History
 -------
+0.5.1 (2017-03-31)
+++++++++++++++++++
+* Add: `ModelImageThumbs` Python 3 support.
+
 0.5.0 (2017-03-28)
 ++++++++++++++++++
 * Add: `ExtraFormsAndFormsetsMixin` trasactions ar atomic now, if something fails nothings gets saved.
