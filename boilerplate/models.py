@@ -10,6 +10,7 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage as storage
 
 from PIL import Image
+import six
 
 
 class ModelImageThumbs(object):
@@ -25,7 +26,7 @@ class ModelImageThumbs(object):
             if imgFile.mode not in ('L', 'RGB'):
                 imgFile = imgFile.convert('RGB')
 
-            for field_name, size in self.IMAGESIZES.iteritems():
+            for field_name, size in six.iteritems(self.IMAGESIZES):
                 field = getattr(self, field_name)
 
                 if not field:
