@@ -23,6 +23,7 @@ install:
   - if [[ $TRAVIS_PYTHON_VERSION == '3.2' ]]; then travis_retry pip install 'coverage<4.0'; fi
   - pip install coveralls
   - pip install pillow
+  - pip install six
 
 # Command to run tests, e.g. python setup.py test
 script:
