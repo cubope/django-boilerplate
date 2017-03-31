@@ -37,7 +37,7 @@ class ModelImageThumbs(object):
                     cf = ContentFile(fp.getvalue())
                     field.save(name=self.image.name, content=cf, save=True)
         else:
-            for field_name, size in self.IMAGESIZES.iteritems():
+            for field_name, size in six.iteritems(self.IMAGESIZES):
                 field = getattr(self, field_name)
                 field.delete(save=True)
 
