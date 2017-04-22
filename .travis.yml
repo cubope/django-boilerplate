@@ -24,6 +24,7 @@ install:
   # Coverage 4.0 no longer supports py32. Install an older version before
   # coveralls tries to install the latest
   - if [[ $TRAVIS_PYTHON_VERSION == '3.2' ]]; then travis_retry pip install 'coverage<4.0'; fi
+  - pip install -r requirements.txt
   - pip install coveralls
 
 # Command to run tests, e.g. python setup.py test
