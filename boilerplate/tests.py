@@ -8,6 +8,7 @@ from django import forms
 from django.core.management import call_command
 from django.contrib.messages import get_messages
 from django.contrib.messages.storage import default_storage
+from django.core.exceptions import PermissionDenied
 from django.db.models import signals
 from django.forms import inlineformset_factory
 from django.contrib.admin.models import LogEntry
@@ -393,15 +394,14 @@ class MixinTest(TestCase):
         request.user = AnonymousUser()
 
         response = NoLoginRequiredView.as_view()(request)
-
         self.assertEqual(response.status_code, 200)
 
     def test_no_login_required_mixin_user(self):
         request = self.factory.get('/fake-path')
         request.user = self.user
 
-        response = NoLoginRequiredView.as_view()(request)
-        self.assertEqual(response.status_code, 403)
+        with self.assertRaises(PermissionDenied):
+            NoLoginRequiredView.as_view()(request)
 
     def test_action_list_mixin(self):
         request = self.factory.get('/fake-path')
