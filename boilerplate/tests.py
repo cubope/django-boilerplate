@@ -16,7 +16,10 @@ from django.contrib.auth.models import (
     AnonymousUser, ContentType, Permission, User
 )
 from django.test import RequestFactory, TestCase
-from django.template import engines
+try:
+    from django.template import engines
+except ImportError:
+    from django.template.engines import Engine
 from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
@@ -50,7 +53,10 @@ def render_template(text, context=None):
     """
     Create a template ``text`` that first loads boilerplate.
     """
-    template = engines['django'].from_string(text)
+    try:
+        template = engines['django'].from_string(text)
+    except:
+        template = Engine().from_string(text)
     if not context:
         context = {}
     return template.render(context)

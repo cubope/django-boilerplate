@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.mixins import AccessMixin
+from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 
 
-class NoLoginRequiredMixin(AccessMixin):
+class NoLoginRequiredMixin(object):
     """
     Mixin for any class view classes that required the current user
     if not authenticated, redirects the user to the home page or any
@@ -17,11 +17,15 @@ class NoLoginRequiredMixin(AccessMixin):
         class Register(NoLoginRequiredMixin, FormView):
             form_class = forms.RegisterForm
     """
-    raise_exception = True
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return self.handle_no_permission()
+        has_access = request.user.is_authenticated
+
+        if (
+            (callable(has_access) and has_access()) or
+            (not callable(has_access) and has_access)
+        ):
+            raise PermissionDenied
 
         return super(NoLoginRequiredMixin, self).dispatch(
             request, *args, **kwargs
