@@ -255,7 +255,7 @@ class SignalTest(TestCase):
 
 
 class NoLoginRequiredView(NoLoginRequiredMixin, TemplateView):
-        template_name = 'any_template.html'
+    template_name = 'any_template.html'
 
 
 class ActionListView(ActionListMixin, TemplateView):
