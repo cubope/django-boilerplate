@@ -2,6 +2,10 @@
 
 History
 -------
+0.5.5 (2017-04-25)
+++++++++++++++++++
+* Fix: Django 1.11 compatibility
+
 0.5.4 (2017-03-31)
 ++++++++++++++++++
 * Add: `ModelImageThumbs` Python 3 support.

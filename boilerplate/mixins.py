@@ -18,7 +18,7 @@ class NoLoginRequiredMixin(object):
             form_class = forms.RegisterForm
     """
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             return HttpResponseForbidden()
 
         return super(NoLoginRequiredMixin, self).dispatch(
