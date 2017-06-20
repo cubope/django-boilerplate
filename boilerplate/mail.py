@@ -34,14 +34,19 @@ class SendEmail(object):
     from_name = None
     from_email = None
     template_name = None
+    content = None
 
-    def __init__(self, to, template_name_suffix, subject, is_html=False):
+    def __init__(
+        self, to, subject, is_html=False, template_name_suffix=None,
+        content=None
+    ):
         if isinstance(to, list):
             self.to = to
         else:
             self.to = list()
             self.to.append(to)
 
+        self.content = content
         self.template_name_suffix = template_name_suffix
         self.subject = subject
         self.is_html = is_html
@@ -90,7 +95,8 @@ class SendEmail(object):
         Set the email template name suffix
 
         **Parameters**:
-            :template_name_suffix: String: the name of the template without the extension
+            :template_name_suffix: String: the name of the template without the
+            extension
         """
         if template_name_suffix:
             self.template_name_suffix = str(template_name_suffix)
@@ -100,7 +106,8 @@ class SendEmail(object):
         Set the email template name
 
         **Parameters**:
-            :template_name: String: the name of the template without the extension
+            :template_name: String: the name of the template without the
+            extension
         """
         if template_name:
             self.template_name = template_name
@@ -108,7 +115,13 @@ class SendEmail(object):
             if not self.template_name_suffix:
                 self.set_template_name_suffix()
 
-            self.template_name = 'mail/' + self.template_name_suffix
+            if self.template_name_suffix:
+                self.template_name = 'mail/' + self.template_name_suffix
+            else:
+                self.template_name = None
+
+    def get_content(self):
+        return self.content
 
     def get_from_email(self):
         if not self.from_email:
@@ -142,12 +155,26 @@ class SendEmail(object):
         return self.context_data
 
     def send(self, fail_silently=True, test=False):
-        plain_template = get_template(self.get_template_name() + '.txt')
-        plain_content = plain_template.render(self.get_context_data())
+        template_name = self.get_template_name()
+        content = self.get_content()
 
-        if self.is_html:
-            html_template = get_template(self.get_template_name() + '.html')
-            html_content = html_template.render(self.get_context_data())
+        if not template_name and not content:
+            raise Exception(
+                "You need to set the `template_name_suffix` or `content`."
+            )
+
+        if template_name:
+            plain_template = get_template(template_name + '.txt')
+            plain_content = plain_template.render(self.get_context_data())
+
+            if self.is_html:
+                html_template = get_template(template_name + '.html')
+                html_content = html_template.render(self.get_context_data())
+        elif content:
+            plain_content = content
+
+            if self.is_html:
+                html_content = content
 
         if test:
             return plain_content

@@ -23,6 +23,7 @@ except ImportError:
 from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
+from .mail import SendEmail
 from .mixins import (
     NoLoginRequiredMixin, ActionListMixin, UserCreateMixin, CreateMessageMixin,
     UpdateMessageMixin, DeleteMessageMixin, ExtraFormsAndFormsetsMixin,
@@ -55,7 +56,7 @@ def render_template(text, context=None):
     """
     try:
         template = engines['django'].from_string(text)
-    except:
+    except Exception:
         template = Engine().from_string(text)
     if not context:
         context = {}
@@ -580,5 +581,18 @@ class MixinTest(TestCase):
 
 
 class MailTest(TestCase):
-    def test_send_email(self):
-        pass
+    def test_send_email_error(self):
+        email = SendEmail(
+            to='test@test.com',
+            subject="This email should raise an error"
+        )
+        with self.assertRaises(Exception):
+            email.send()
+
+    def test_send_email_only_content(self):
+        email = SendEmail(
+            to='test@test.com',
+            subject="This is the subject",
+            content="This is the email content."
+        )
+        self.assertEqual(email.send(), 1)

@@ -2,6 +2,10 @@
 
 History
 -------
+0.5.8 (2017-06-19)
+++++++++++++++++++
+* Add: Send email without template, only with content
+
 0.5.6 (2017-04-25)
 ++++++++++++++++++
 * Fix: Django 1.11 compatibility
@@ -22,8 +26,8 @@ History
 0.4.8 (2017-03-27)
 ++++++++++++++++++
 * Rename: `permissions.py` to `signals.py`
-* Add: Documentation `add_view_permissions` 
-* Add: More tests 
+* Add: Documentation `add_view_permissions`
+* Add: More tests
 
 0.4.5 (2017-03-25)
 ++++++++++++++++++
@@ -33,7 +37,7 @@ History
 * Bug: `add_view_permissions` Python3 compatibility
 * Add: Allow email testing
 * Enhancement: Rename variables `formsets` to `formset_list` and `extra_forms` to `extra_form_list`
- 
+
 0.3.6 (2016-11-26)
 ++++++++++++++++++
 * Fix: LoginForm username and password required fields
@@ -90,7 +94,7 @@ permission to all the model
 0.2.0 (2016-06-18)
 ++++++++++++++++++
 * Rename: `views.py` to `mixins.py` because is the propper name
-* Add: `boilerplate.py` with the default settings, you can customize your error messages. 
+* Add: `boilerplate.py` with the default settings, you can customize your error messages.
 * Add: `forms.py` Forms with validation to the following Views:
 * Add: `views.py`: `LoginView`
 * Add: `views.py`: `RecoverAccountView`

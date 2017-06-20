@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from django.core.urlresolvers import reverse_lazy
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -104,26 +105,28 @@ DATABASES = {
     }
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
-LANGUAGE_CODE      = 'en'
+LANGUAGE_CODE = 'en'
 
-TIME_ZONE          = 'UTC'
+TIME_ZONE = 'UTC'
 
-USE_I18N           = True
+USE_I18N = True
 
-USE_L10N           = True
+USE_L10N = True
 
-USE_TZ             = True
+USE_TZ = True
 
 # Static files
-MEDIA_ROOT  = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
-MEDIA_URL   = '/media/'
+MEDIA_URL = '/media/'
 
-STATIC_URL  = '/static/'
+STATIC_URL = '/static/'
 
-from django.core.urlresolvers import reverse_lazy
 LOGIN_URL = reverse_lazy('account:login')
