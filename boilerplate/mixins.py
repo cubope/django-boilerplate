@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404
 from django.utils.translation import ugettext_lazy as _
 
@@ -243,7 +243,7 @@ class ExtraFormsAndFormsetsMixin(object):
         if hasattr(self, 'object'):
             try:
                 kwargs.update({'instance': getattr(self.object, lookup_field)})
-            except:
+            except Exception:
                 pass
 
         return kwargs
@@ -272,7 +272,7 @@ class ExtraFormsAndFormsetsMixin(object):
         """
         try:
             self.object = self.get_object()
-        except:
+        except Exception:
             self.object = None
 
         form = self.get_form()
@@ -309,9 +309,10 @@ class ExtraFormsAndFormsetsMixin(object):
                 for formset in formsets:
                     formset.instance = self.object
                     formset.save()
-            return response
-        except:
+        except IntegrityError:
             return self.form_invalid(form, extra_forms, formsets)
+
+        return response
 
     def form_invalid(self, form, extra_forms=None, formsets=None):
         """
