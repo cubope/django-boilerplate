@@ -2,6 +2,10 @@
 
 History
 -------
+0.5.9 (2017-06-29)
+++++++++++++++++++
+* Better: Error handling
+
 0.5.8 (2017-06-19)
 ++++++++++++++++++
 * Add: Send email without template, only with content
