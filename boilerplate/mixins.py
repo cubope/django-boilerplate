@@ -302,14 +302,25 @@ class ExtraFormsAndFormsetsMixin(object):
                     ExtraFormsAndFormsetsMixin, self
                 ).form_valid(form)
 
+                if not self.object:
+                    raise IntegrityError
+
                 for relation_field, extra_form in extra_forms:
                     setattr(extra_form.instance, relation_field, self.object)
+
+                    if not extra_form.is_valid():
+                        raise IntegrityError
+
                     extra_form.save()
 
                 for formset in formsets:
                     formset.instance = self.object
+
+                    if not formset.is_valid():
+                        raise IntegrityError
+
                     formset.save()
-        except IntegrityError:
+        except Exception:
             return self.form_invalid(form, extra_forms, formsets)
 
         return response
