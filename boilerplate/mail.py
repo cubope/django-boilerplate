@@ -179,10 +179,18 @@ class SendEmail(object):
         if test:
             return plain_content
 
+        if self.is_html:
+            content = html_content
+        else:
+            content = plain_content
+
         msg = EmailMultiAlternatives(
-            self.subject, plain_content,
-            '%s <%s>' % (self.get_from_name(), self.get_from_email()),
-            self.to
+            subject=self.subject,
+            body=content,
+            from_email='%s <%s>' % (
+                self.get_from_name(), self.get_from_email()
+            ),
+            to=self.to
         )
 
         if self.files:
@@ -191,8 +199,5 @@ class SendEmail(object):
                     msg.attach(name, file.read(), content_type)
                 except Exception:
                     msg.attach(name, file.getvalue(), content_type)
-
-        if self.is_html:
-            msg.attach_alternative(html_content, 'text/html')
 
         return msg.send(fail_silently=fail_silently)
