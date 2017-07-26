@@ -2,6 +2,10 @@
 
 History
 -------
+0.6.1 (2017-07-26)
+++++++++++++++++++
+* Fix: Attachment sending
+
 0.6.0 (2017-06-29)
 ++++++++++++++++++
 * Better: Error handling

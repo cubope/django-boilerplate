@@ -185,11 +185,14 @@ class SendEmail(object):
             self.to
         )
 
-        if self.is_html:
-            msg.attach_alternative(html_content, 'text/html')
-
         if self.files:
             for name, file, content_type in self.files:
-                msg.attach(name, file.read(), content_type)
+                try:
+                    msg.attach(name, file.read(), content_type)
+                except Exception:
+                    msg.attach(name, file.getvalue(), content_type)
+
+        if self.is_html:
+            msg.attach_alternative(html_content, 'text/html')
 
         return msg.send(fail_silently=fail_silently)
