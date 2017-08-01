@@ -80,7 +80,10 @@ class UserCreateMixin(object):
         return self.field_user
 
     def form_valid(self, form):
-        setattr(form.instance, self.get_field_user(), self.request.user)
+        cur_user = getattr(form.instance, self.get_field_user(), None)
+
+        if not cur_user:
+            setattr(form.instance, self.get_field_user(), self.request.user)
 
         return super(UserCreateMixin, self).form_valid(form)
 
@@ -330,7 +333,8 @@ class ExtraFormsAndFormsetsMixin(object):
                         raise IntegrityError
 
                     formset.save()
-        except Exception:
+        except Exception as e:
+            form.add_error(None, e)
             return self.form_invalid(form, extra_forms, formsets)
 
         return response

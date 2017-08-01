@@ -2,10 +2,11 @@
 
 History
 -------
-0.6.7 (2017-07-31)
+0.6.9 (2017-07-31)
 ++++++++++++++++++
 * Add: Set  current user if field is available
 * Add: Set email language
+* Bug: Display transaction error
 
 0.6.5 (2017-07-26)
 ++++++++++++++++++
