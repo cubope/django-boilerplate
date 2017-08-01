@@ -66,6 +66,16 @@ class ActionListMixin(object):
 class UserCreateMixin(object):
     field_user = 'user'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        field_name = self.get_field_user()
+
+        if field_name in context['form'].fields:
+            context['form'].fields[field_name].initial = self.request.user
+
+        return context
+
     def get_field_user(self):
         return self.field_user
 
