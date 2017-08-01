@@ -4,6 +4,8 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
+from django.utils.text import slugify
+from django.utils import translation
 
 
 class SendEmail(object):
@@ -20,6 +22,7 @@ class SendEmail(object):
         )
         email.set_from_email('no-reply@example.com')
         email.set_from_name('No Reply')
+        email.set_language('es')
         email.add_context_data('protocol', 'https')
         email.add_context_data('domain', 'example.com')
         email.add_context_data('uid', uid)
@@ -33,6 +36,7 @@ class SendEmail(object):
     files = list()
     from_name = None
     from_email = None
+    language = None
     template_name = None
     content = None
 
@@ -89,6 +93,19 @@ class SendEmail(object):
             self.from_name = str(from_name)
         else:
             self.from_name = settings.SERVER_EMAIL
+
+    def set_language(self, language):
+        """
+        Set the name sender
+
+        **Parameters**:
+            :language: String, a valid value
+        """
+        language = slugify(language)
+
+        if language not in dict(settings.LANGUAGES):
+            raise Exception("Invalid language.")
+        self.language = language
 
     def set_template_name_suffix(self, template_name_suffix=None):
         """
@@ -162,6 +179,9 @@ class SendEmail(object):
             raise Exception(
                 "You need to set the `template_name_suffix` or `content`."
             )
+
+        if self.language:
+            translation.activate(self.language)
 
         if template_name:
             plain_template = get_template(template_name + '.txt')

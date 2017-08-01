@@ -2,6 +2,10 @@
 
 History
 -------
+0.6.6 (2017-07-31)
+++++++++++++++++++
+* Add: Set email language
+
 0.6.5 (2017-07-26)
 ++++++++++++++++++
 * Fix: Attachment sending
@@ -25,7 +29,7 @@ History
 
 0.5.0 (2017-03-28)
 ++++++++++++++++++
-* Add: `ExtraFormsAndFormsetsMixin` trasactions ar atomic now, if something fails nothings gets saved.
+* Add: `ExtraFormsAndFormsetsMixin` trasactions are atomic now, if something fails nothings gets saved.
 
 0.4.9 (2017-03-27)
 ++++++++++++++++++
