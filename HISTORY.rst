@@ -2,6 +2,14 @@
 
 History
 -------
+0.7.5 (2017-11-06)
+++++++++++++++++++
+* Add: Append custom headers
+
+0.7.0 (2017-08-05)
+++++++++++++++++++
+* Change: Search buttons by parent app name
+
 0.6.9 (2017-07-31)
 ++++++++++++++++++
 * Add: Set  current user if field is available

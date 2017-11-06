@@ -37,6 +37,7 @@ class SendEmail(object):
     from_name = None
     from_email = None
     language = None
+    headers = {}
     template_name = None
     content = None
 
@@ -67,6 +68,18 @@ class SendEmail(object):
             :value: Can be an object or any kind of value
         """
         self.context_data.update({
+            str(key): value
+        })
+
+    def add_header(self, key, value):
+        """
+        Add a key-value to the header of the email
+
+        **Parameters**:
+            :key: A valid key name
+            :value: Can be an object or any kind of value
+        """
+        self.headers.update({
             str(key): value
         })
 
@@ -205,7 +218,8 @@ class SendEmail(object):
             from_email='%s <%s>' % (
                 self.get_from_name(), self.get_from_email()
             ),
-            to=self.to
+            to=self.to,
+            headers=self.headers,
         )
 
         if self.is_html:

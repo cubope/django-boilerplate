@@ -160,7 +160,7 @@ def model_child_action(value, parent, action):
         {% model_child_action object parent 'update' %}
     """
     name = (
-        value._meta.model._meta.app_label +
+        parent._meta.model._meta.app_label +
         ':' +
         parent._meta.model.__name__.lower() +
         "_" +
