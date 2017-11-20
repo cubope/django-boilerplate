@@ -98,12 +98,13 @@ class CRUDMessageMixin(object):
     )
 
     def form_valid(self, form):
+        response = super(CRUDMessageMixin, self).form_valid(form)
         success_message = self.get_success_message(form.cleaned_data)
 
         if success_message:
             messages.success(self.request, success_message)
 
-        return super(CRUDMessageMixin, self).form_valid(form)
+        return response
 
     def get_success_message(self, cleaned_data=None):
         """
