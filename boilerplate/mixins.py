@@ -117,7 +117,7 @@ class CRUDMessageMixin(object):
         )
 
     def get_success_url(self):
-        next_ = self.request.POST('next', None)
+        next_ = self.request.POST.get('next', None)
 
         if next_:
             return next_
