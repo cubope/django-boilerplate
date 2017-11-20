@@ -2,6 +2,10 @@
 
 History
 -------
+0.7.6 (2017-11-06)
+++++++++++++++++++
+* Fix: Allow redirection
+
 0.7.5 (2017-11-06)
 ++++++++++++++++++
 * Add: Append custom headers
