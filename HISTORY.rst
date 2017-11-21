@@ -2,9 +2,11 @@
 
 History
 -------
-0.7.9 (2017-11-20)
+0.8.0 (2017-11-21)
 ++++++++++++++++++
+* Add: _addanother or _continue
 * Fix: Allow redirection
+* Fix: Python 2.7 compatibility
 
 0.7.5 (2017-11-06)
 ++++++++++++++++++

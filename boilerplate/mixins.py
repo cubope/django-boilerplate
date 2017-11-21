@@ -3,7 +3,7 @@ from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404
-from django.urls import reverse_lazy
+from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
 
