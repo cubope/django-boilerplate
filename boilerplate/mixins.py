@@ -3,6 +3,7 @@ from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -117,12 +118,43 @@ class CRUDMessageMixin(object):
         )
 
     def get_success_url(self):
-        next_ = self.request.POST.get('next', None)
+        _addanother = self.request.POST.get('_addanother', None)
+        _continue = self.request.POST.get('_continue', None)
+        _save = self.request.POST.get('_save', None)
 
-        if next_:
-            return next_
+        if _save:
+            return super(CRUDMessageMixin, self).get_success_url()
+        elif self.object and _addanother:
+            if self.object.parent:
+                url_name = '{}:{}_{}_add'.format(
+                    self.object.parent._meta.app_label.lower(),
+                    self.object.parent.__class__.__name__.lower(),
+                    self.object.__class__.__name__.lower()
+                )
+                return reverse_lazy(url_name, args=[self.object.parent.pk, ])
+            else:
+                url_name = '{}:{}_add'.format(
+                    self.object._meta.app_label.lower(),
+                    self.object.__class__.__name__.lower()
+                )
+                return reverse_lazy(url_name)
 
-        return super(CRUDMessageMixin, self).get_success_url()
+        elif self.object and _continue:
+            if self.object.parent:
+                url_name = '{}:{}_{}_change'.format(
+                    self.object.parent._meta.app_label.lower(),
+                    self.object.parent.__class__.__name__.lower(),
+                    self.object.__class__.__name__.lower()
+                )
+                return reverse_lazy(
+                    url_name, args=[self.object.parent.pk, self.object.pk, ]
+                )
+            else:
+                url_name = '{}:{}_change'.format(
+                    self.object._meta.app_label.lower(),
+                    self.object.__class__.__name__.lower()
+                )
+                return reverse_lazy(url_name, args=[self.object.pk, ])
 
 
 class CreateMessageMixin(CRUDMessageMixin):

@@ -30,6 +30,7 @@ def get_deleted_objects(object):
 
     return collector.nested()
 
+
 """
 
 Form filters
@@ -44,7 +45,7 @@ def form_model_name(value):
     """
     try:
         return value._meta.model._meta.verbose_name
-    except:
+    except Exception:
         return value.__class__.__name__
 
 
@@ -107,6 +108,7 @@ def formset_model_name_plural(value):
     Return the model verbose name plural of a formset
     """
     return value.model._meta.verbose_name_plural
+
 
 """
 
@@ -218,6 +220,7 @@ def model_url(value):
         value._meta.model.__name__.lower() +
         URL_LIST_SUFFIX
     )
+
 
 """
 
