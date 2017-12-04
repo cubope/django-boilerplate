@@ -3,7 +3,10 @@ from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404
-from django.core.urlresolvers import reverse_lazy
+try:
+    from django.urls import reverse_lazy
+except ImportError:
+    from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -120,11 +123,8 @@ class CRUDMessageMixin(object):
     def get_success_url(self):
         _addanother = self.request.POST.get('_addanother', None)
         _continue = self.request.POST.get('_continue', None)
-        _save = self.request.POST.get('_save', None)
 
-        if _save:
-            return super(CRUDMessageMixin, self).get_success_url()
-        elif self.object and _addanother:
+        if self.object and _addanother:
             if self.object.parent:
                 url_name = '{}:{}_{}_add'.format(
                     self.object.parent._meta.app_label.lower(),
@@ -155,6 +155,8 @@ class CRUDMessageMixin(object):
                     self.object.__class__.__name__.lower()
                 )
                 return reverse_lazy(url_name, args=[self.object.pk, ])
+
+        return super(CRUDMessageMixin, self).get_success_url()
 
 
 class CreateMessageMixin(CRUDMessageMixin):

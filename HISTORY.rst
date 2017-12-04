@@ -2,7 +2,11 @@
 
 History
 -------
-0.8.0 (2017-11-21)
+0.8.2 (2017-12-4)
+++++++++++++++++++
+* Add: Django 2.0 support
+
+0.8.1 (2017-11-21)
 ++++++++++++++++++
 * Add: _addanother or _continue
 * Fix: Allow redirection

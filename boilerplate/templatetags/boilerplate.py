@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from django import template
 from django.contrib.admin.utils import NestedObjects
-from django.core.urlresolvers import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 from django.db import DEFAULT_DB_ALIAS
 from django.utils.text import slugify
 
