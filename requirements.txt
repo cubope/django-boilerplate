@@ -1,5 +1,5 @@
 Django>=1.4
-Pillow>=3.2.0
+Pillow>=5.1.0
 six
 Sphinx
 sphinx_rtd_theme
