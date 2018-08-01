@@ -19,7 +19,7 @@ APP_URL_INDEX = get_boilerplate_setting('app_url_index', 'home')
 @register.simple_tag
 def url_replace(request, field, value):
     dict_ = request.GET.copy()
-    dict_[field] = value
+    dict_[field] = str(value)
     return dict_.urlencode()
 
 
