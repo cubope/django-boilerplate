@@ -7,7 +7,6 @@ Getting started
   :maxdepth: 2
 
   installation
-  quickstart
 
 Advanced topics
 ---------------
@@ -24,7 +23,7 @@ Extra
 ---------------
 .. toctree::
   :maxdepth: 2
-  
+
   contributing
   authors
   history

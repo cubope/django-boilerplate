@@ -27,12 +27,12 @@ DeleteMessageMixin
 .. autoclass:: DeleteMessageMixin
 	:members:
 
-ListActionsMixin
+ActionListMixin
 ~~~~~~~~~~~~~~~~~~~~~~
-.. autoclass:: ListActionsMixin
+.. autoclass:: ActionListMixin
 	:members:
 
 ExtraFormsAndFormsetsMixin
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. autoclass:: ExtraFormsAndFormsetsMixin
 	:members:
