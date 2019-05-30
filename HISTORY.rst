@@ -2,6 +2,10 @@
 
 History
 -------
+0.9.0 (2019-05-29)
+++++++++++++++++++
+* Enhace: Add deletion variables
+
 0.8.3 (2018-08-1)
 ++++++++++++++++++
 * Add: Django 2.1 support

@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
+from django.contrib.admin.utils import model_ngettext
 from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404
+from .utils import get_deleted_objects
+
 try:
     from django.urls import reverse_lazy
 except ImportError:
@@ -50,6 +53,7 @@ class ActionListMixin(object):
             )
             model = Model
     """
+
     def get_action_list(self):
         """
         Return the list of actions to show in the "context".
@@ -208,6 +212,20 @@ class DeleteMessageMixin(CRUDMessageMixin):
             messages.success(self.request, success_message)
 
         return response
+
+    def get_context_data(self, **kwargs):
+        to_delete, model_count, perms_needed, protected = get_deleted_objects(
+            [self.object], self.request
+        )
+        objects_name = model_ngettext(self.object)
+
+        kwargs.update({
+            'objects_name': objects_name,
+            'to_delete': [to_delete],
+            'model_count': dict(model_count).items(),
+            'protected': protected
+        })
+        return super().get_context_data(**kwargs)
 
 
 class ExtraFormsAndFormsetsMixin(object):
