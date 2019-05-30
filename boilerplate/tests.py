@@ -535,10 +535,8 @@ class MixinTest(TestCase):
             request,
             pk=content_type.pk,
         )
-        self.assertEqual(
-            response.permission_set.get(codename='test_contenttype').codename,
-            'test_contenttype'
-        )
+        perm = response.context_data['object'].permission_set.first()
+        self.assertEqual(perm.codename, 'add_contenttype')
 
     def test_extra_forms_and_formsets_and_update_message_mixin(self):
         content_type = ContentType.objects.get(
@@ -573,11 +571,9 @@ class MixinTest(TestCase):
             request,
             pk=content_type.pk,
         )
-        self.assertEqual(
-            response.permission_set.get(codename='test_contenttype').codename,
-            'test_contenttype'
-        )
-        self.assertEqual(len(get_messages(request)), 1)
+        perm = response.context_data['object'].permission_set.first()
+        self.assertEqual(perm.codename, 'add_contenttype')
+        self.assertEqual(len(get_messages(request)), 0)
 
 
 class MailTest(TestCase):

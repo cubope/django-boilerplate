@@ -2,7 +2,7 @@
 
 History
 -------
-0.9.0 (2019-05-29)
+0.9.1 (2019-05-29)
 ++++++++++++++++++
 * Enhace: Add deletion variables
 
