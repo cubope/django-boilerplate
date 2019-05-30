@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
 
-from django.contrib.auth.models import Permission
-from django.contrib.contenttypes.models import ContentType
-
 
 def add_view_permissions(sender, **kwargs):
     """
@@ -11,17 +8,17 @@ def add_view_permissions(sender, **kwargs):
 
     **Example**
     ::
-    # File: apps.py
-    from django.db.models.signals import post_migrate
-    from boilerplate.signals import add_view_permissions
+        # File: apps.py
+        from django.db.models.signals import post_migrate
+        from boilerplate.signals import add_view_permissions
 
-    class MyAppConfig(AppConfig):
-        ...
-
-        def ready(self):
-            post_migrate.connect(add_view_permissions, sender=self)
-    ::
+        class MyAppConfig(AppConfig):
+            def ready(self):
+                post_migrate.connect(add_view_permissions, sender=self)
     """
+    from django.contrib.auth.models import Permission
+    from django.contrib.contenttypes.models import ContentType
+
     for content_type in ContentType.objects.filter(app_label=sender.label):
         codename = "view_%s" % content_type.model
 
