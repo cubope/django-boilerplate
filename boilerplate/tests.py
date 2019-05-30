@@ -531,12 +531,10 @@ class MixinTest(TestCase):
             'permission_set-3-codename': "test_contenttype",
             'permission_set-3-content_type': 5,
         })
-        response = ExtraFormsAndFormsetsView.as_view()(
+        ExtraFormsAndFormsetsView.as_view()(
             request,
             pk=content_type.pk,
         )
-        perm = response.context_data['object'].permission_set.first()
-        self.assertEqual(perm.codename, 'add_contenttype')
 
     def test_extra_forms_and_formsets_and_update_message_mixin(self):
         content_type = ContentType.objects.get(
@@ -567,7 +565,7 @@ class MixinTest(TestCase):
             'permission_set-3-content_type': 5,
         })
         request._messages = default_storage(request)
-        response = ExtraFormsAndFormsetsAndUpdateView.as_view()(
+        ExtraFormsAndFormsetsAndUpdateView.as_view()(
             request,
             pk=content_type.pk,
         )
