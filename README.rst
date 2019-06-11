@@ -9,14 +9,14 @@ Write Django as usual, and let ``django-boilerplate`` help you with the usually 
     :target: https://travis-ci.org/cubope/django-boilerplate
 
 .. image:: https://img.shields.io/coveralls/cubope/django-boilerplate/master.svg
-  :target: https://coveralls.io/r/cubope/django-boilerplate?branch=master
+    :target: https://coveralls.io/r/cubope/django-boilerplate?branch=master
 
 
 Requirements
 ------------
 
-- Python 2.7, 3.2, 3.3, 3.4, or 3.5
-- Django >= 1.8
+- Python 2.7 or greater
+- Django >= 1.11
 
 *The latest version supporting Python 2.6 and Django < 1.8 is the 6.x.x branch.*
 
@@ -35,7 +35,7 @@ Installation
 
 3. In your templates, load the ``boilerplate`` library and use the ``boilerplate`` tags:
 
-This app will soon require Django 1.8+, python 2.7+. Thanks for understanding.
+This app will soon require Django 2.x, python 3. Thanks for understanding.
 
 
 Bugs and suggestions

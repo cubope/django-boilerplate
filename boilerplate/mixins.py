@@ -127,8 +127,11 @@ class CRUDMessageMixin(object):
     def get_success_url(self):
         _addanother = self.request.POST.get('_addanother', None)
         _continue = self.request.POST.get('_continue', None)
+        _next = self.request.GET.get('next', None)
 
-        if self.object and _addanother:
+        if _next:
+            return _next
+        elif self.object and _addanother:
             if self.object.parent:
                 url_name = '{}:{}_{}_add'.format(
                     self.object.parent._meta.app_label.lower(),
