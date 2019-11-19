@@ -102,7 +102,10 @@ def formset_model_name(value):
     """
     Return the model verbose name of a formset
     """
-    return value.model._meta.verbose_name
+    try:
+        return value.model._meta.verbose_name
+    except AttributeError:
+        return str(value)
 
 
 @register.filter
@@ -110,7 +113,10 @@ def formset_model_name_plural(value):
     """
     Return the model verbose name plural of a formset
     """
-    return value.model._meta.verbose_name_plural
+    try:
+        return value.model._meta.verbose_name_plural
+    except AttributeError:
+        return str(value)
 
 
 """
