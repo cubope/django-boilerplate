@@ -2,7 +2,7 @@
 
 History
 -------
-0.9.3 (2019-11-19)
+0.9.4 (2019-11-19)
 ++++++++++++++++++
 - Fix: Getting the name of a formset without model.
 

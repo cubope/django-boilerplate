@@ -105,7 +105,7 @@ def formset_model_name(value):
     try:
         return value.model._meta.verbose_name
     except AttributeError:
-        return str(value)
+        return str(value.__class__.__name__)
 
 
 @register.filter
@@ -116,7 +116,7 @@ def formset_model_name_plural(value):
     try:
         return value.model._meta.verbose_name_plural
     except AttributeError:
-        return str(value)
+        return str(value.__class__.__name__)
 
 
 """
